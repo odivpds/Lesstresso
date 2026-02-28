@@ -1,0 +1,180 @@
+const menuData = [
+    {
+        category: "coffee",
+        categoryTitle: "Coffee Selection",
+        sections: [
+            {
+                name: "SIGNATURE",
+                color: "brand-coral",
+                items: [
+                    { name: "Iced Coffee Lesstresso", desc: "House Blend Special", s: "22k", m: "26k", l: "29k" },
+                    { name: "Choco Delight", desc: "Premium Cocoa Blend", s: "25k", m: "29k", l: "32k" }
+                ]
+            },
+            {
+                name: "CLASSIC COFFEE",
+                color: "brand-blue",
+                items: [
+                    { name: "Hot Americano", s: "15k", m: "-", l: "-" },
+                    { name: "Iced Americano", s: "20k", m: "24k", l: "27k" },
+                    { name: "Hot Coffee Latte", s: "20k", m: "-", l: "-" },
+                    { name: "Iced Coffee Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Hot Cappuccino", s: "20k", m: "-", l: "-" },
+                    { name: "Iced Cappuccino", s: "20k", m: "24k", l: "27k" }
+                ]
+            },
+            {
+                name: "FLAVOR COFFEE",
+                color: "brand-blue",
+                items: [
+                    { name: "Iced Vanilla Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Hazelnut Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Caramel Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Rum Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Butterscotch Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Irish Cream Latte", s: "20k", m: "24k", l: "27k" }
+                ]
+            }
+        ],
+        addon: { name: "Extra Shot Espresso", price: "+5k" }
+    },
+    {
+        category: "coffee",
+        categoryTitle: "Coffee Selection",
+        sections: [
+            {
+                name: "SIGNATURE",
+                color: "brand-coral",
+                items: [
+                    { name: "Iced Coffee Lesstresso", desc: "House Blend Special", s: "22k", m: "26k", l: "29k" },
+                    { name: "Choco Delight", desc: "Premium Cocoa Blend", s: "25k", m: "29k", l: "32k" }
+                ]
+            },
+            {
+                name: "CLASSIC COFFEE",
+                color: "brand-blue",
+                items: [
+                    { name: "Hot Americano", s: "15k", m: "-", l: "-" },
+                    { name: "Iced Americano", s: "20k", m: "24k", l: "27k" },
+                    { name: "Hot Coffee Latte", s: "20k", m: "-", l: "-" },
+                    { name: "Iced Coffee Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Hot Cappuccino", s: "20k", m: "-", l: "-" },
+                    { name: "Iced Cappuccino", s: "20k", m: "24k", l: "27k" }
+                ]
+            },
+            {
+                name: "FLAVOR COFFEE",
+                color: "brand-blue",
+                items: [
+                    { name: "Iced Vanilla Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Hazelnut Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Caramel Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Rum Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Butterscotch Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Irish Cream Latte", s: "20k", m: "24k", l: "27k" }
+                ]
+            }
+        ],
+        addon: { name: "Extra Shot Espresso", price: "+5k" }
+    },
+    {
+        category: "coffee",
+        categoryTitle: "Coffee Selection",
+        sections: [
+            {
+                name: "SIGNATURE",
+                color: "brand-coral",
+                items: [
+                    { name: "Iced Coffee Lesstresso", desc: "House Blend Special", s: "22k", m: "26k", l: "29k" },
+                    { name: "Choco Delight", desc: "Premium Cocoa Blend", s: "25k", m: "29k", l: "32k" }
+                ]
+            },
+            {
+                name: "CLASSIC COFFEE",
+                color: "brand-blue",
+                items: [
+                    { name: "Hot Americano", s: "15k", m: "-", l: "-" },
+                    { name: "Iced Americano", s: "20k", m: "24k", l: "27k" },
+                    { name: "Hot Coffee Latte", s: "20k", m: "-", l: "-" },
+                    { name: "Iced Coffee Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Hot Cappuccino", s: "20k", m: "-", l: "-" },
+                    { name: "Iced Cappuccino", s: "20k", m: "24k", l: "27k" }
+                ]
+            },
+            {
+                name: "FLAVOR COFFEE",
+                color: "brand-blue",
+                items: [
+                    { name: "Iced Vanilla Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Hazelnut Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Caramel Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Rum Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Butterscotch Latte", s: "20k", m: "24k", l: "27k" },
+                    { name: "Iced Irish Cream Latte", s: "20k", m: "24k", l: "27k" }
+                ]
+            }
+        ],
+        addon: { name: "Extra Shot Espresso", price: "+5k" }
+    },
+];
+
+function renderMenu() {
+    const container = document.getElementById('menu-container');
+    
+    const htmlContent = menuData.map(cat => `
+        <div class="col-12 col-lg-4 menu-item" data-category="${cat.category}">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 h-100">
+                
+                <!-- Header Tabel -->
+                <div class="row gx-0 mb-4 pb-2 border-b border-slate-100 text-slate-400 font-bold text-[13px] uppercase tracking-widest">
+                    <div class="col-6">${cat.categoryTitle}</div>
+                    <div class="col-2 text-center">S</div>
+                    <div class="col-2 text-center">M</div>
+                    <div class="col-2 text-center">L</div>
+                </div>
+
+                <!-- Perulangan Section (Signature, Classic, dll) -->
+                ${cat.sections.map(section => `
+                    <div class="mb-8">
+                        <h4 class="text-brand-blue font-black text-lg mb-4 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-${section.color} rounded-full"></span> ${section.name}
+                        </h4>
+                        
+                        <div class="space-y-4">
+                            <!-- Perulangan Item Menu -->
+                            ${section.items.map(item => `
+                                <div class="row gx-0 items-center group transition-all">
+                                    <div class="col-6">
+                                        <h6 class="font-bold mb-0 text-sm group-hover:text-brand-blue transition">${item.name}</h6>
+                                        ${item.desc ? `<p class="text-[10px] text-slate-400 uppercase m-0">${item.desc}</p>` : ''}
+                                    </div>
+                                    <div class="col-2 text-center font-bold ${item.s === '-' ? 'text-slate-200' : 'text-slate-700'} text-sm">${item.s}</div>
+                                    <div class="col-2 text-center font-bold ${item.m === '-' ? 'text-slate-200' : 'text-slate-700'} text-sm border-x border-slate-50">${item.m}</div>
+                                    <div class="col-2 text-center font-bold ${item.l === '-' ? 'text-slate-200' : 'text-brand-blue bg-blue-50 rounded-lg'} text-sm py-1">${item.l}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('')}
+
+                <!-- Addon Section -->
+                ${cat.addon ? `
+                    <div class="mt-auto p-4 bg-slate-50 rounded-2xl border-l-4 border-brand-coral">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="font-black text-brand-coral text-xs tracking-widest uppercase">*ADD ON</span>
+                                <h6 class="font-bold mb-0 text-sm">${cat.addon.name}</h6>
+                            </div>
+                            <div class="text-lg font-black text-brand-blue">${cat.addon.price}</div>
+                        </div>
+                    </div>
+                ` : ''}
+
+            </div>
+        </div>
+    `).join('');
+
+    container.innerHTML = htmlContent;
+}
+
+document.addEventListener('DOMContentLoaded', renderMenu);
