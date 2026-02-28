@@ -23,6 +23,11 @@ nav#mainNavbar.scrolled #navLogo {
     color: #0074E4 !important; 
 }
 
+#features{
+    background-color: #ffffff !important;
+}
+
+
 .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -51,11 +56,67 @@ nav#mainNavbar.scrolled #navLogo {
     visibility: hidden;
     transition: 0.3s;
 }
+section:not(#home), 
+footer {
+    position: relative;
+    z-index: 20; 
+    background-color: whitesmoke; 
+}
+
+footer {
+    background-color: #0f172a !important; 
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+#reviews {
+    background-color: #ffffff !important; 
+}
 
 #overlay.active {
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+/* --- ENTRANCE ANIMATION LOGIC --- */
+.load-nav {
+    transform: translateY(-50px);
+    opacity: 0;
+    transition: all 1s ease-out;
+}
+
+.load-title {
+    transform: translateX(-60px);
+    opacity: 0;
+    transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.load-up {
+    transform: translateY(40px);
+    opacity: 0;
+    transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.load-img {
+    transform: scale(1.2);
+    filter: brightness(0);
+    transition: all .5s ease-in-out;
+    will-change: transform;
+}
+
+body.is-loaded .load-nav,
+body.is-loaded .load-title,
+body.is-loaded .load-up {
+    transform: translate(0);
+    opacity: 1;
+}
+
+body.is-loaded .load-img {
+    transform: scale(1);
+    filter: brightness(0.4); 
+}
+/* --- ENTRANCE ANIMATION LOGIC --- */
 
 @keyframes marquee {
     0% { transform: translateX(0); }
@@ -74,6 +135,29 @@ nav#mainNavbar.scrolled #navLogo {
     95% { transform: rotate(5deg); }
 }
 
+.star-sparkle {
+    display: inline-block;
+}
+
+body.is-loaded .star-sparkle {
+    animation: sparkleOnce 1s ease-in-out 1s 1 forwards;
+}
+
+@keyframes sparkleOnce {
+    0% {
+        transform: scale(1) rotate(0deg);
+        filter: brightness(1) drop-shadow(0 0 0px rgba(250, 204, 21, 0));
+    }
+    50% {
+        transform: scale(1.6) rotate(20deg);
+        filter: brightness(2) drop-shadow(0 0 15px rgba(250, 204, 21, 1));
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        filter: brightness(1) drop-shadow(0 0 0px rgba(250, 204, 21, 0));
+    }
+}
+
 .group:hover .wa-wiggle {
     animation-play-state: paused;
 }
@@ -81,11 +165,6 @@ nav#mainNavbar.scrolled #navLogo {
 .animate-ping {
     animation-duration: 2s;
 }
-
-/* Berhenti saat kursor di atasnya agar user bisa baca review */
-/* .relative.group:hover .animate-marquee {
-    animation-play-state: paused;
-} */
 
 @media (max-width: 1023px) {
     #navMenu {

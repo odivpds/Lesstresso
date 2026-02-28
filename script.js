@@ -262,6 +262,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    window.addEventListener('load', () => {
+        document.body.classList.add('is-loaded');
+    });
+
     window.addEventListener('scroll', handleScroll);
     handleScroll();
 });
