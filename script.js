@@ -1,7 +1,7 @@
 const menuData = [
     {
         category: "coffee",
-        categoryTitle: "Coffee Selection",
+        categoryTitle: "Coffee",
         sections: [
             {
                 name: "SIGNATURE",
@@ -34,8 +34,8 @@ const menuData = [
         addon: { name: "Extra Shot Espresso", price: "+5k" }
     },
     {
-        category: "coffee",
-        categoryTitle: "Coffee Selection",
+        category: "non-coffee",
+        categoryTitle: "Non-Coffee",
         sections: [
             {
                 name: "SIGNATURE",
@@ -68,8 +68,8 @@ const menuData = [
         addon: { name: "Extra Shot Espresso", price: "+5k" }
     },
     {
-        category: "coffee",
-        categoryTitle: "Coffee Selection",
+        category: "Food",
+        categoryTitle: "Food",
         sections: [
             {
                 name: "SIGNATURE",
@@ -112,19 +112,35 @@ const reviewsData = [
     { text: "Interior lantai 2-nya estetik parah.", author: "Instagrammer Bali" }
 ];
 
-function renderMenu() {
+let currentCategory = 'coffee'; 
+
+function renderMenu(categoryFilter = currentCategory) {
     const container = document.getElementById('menu-container');
     if (!container) return;
-    container.className = "grid grid-cols-1 lg:grid-cols-3 gap-8";
-    container.innerHTML = menuData.map(cat => `
-        <div class="w-full flex flex-col h-full transition-all duration-500">
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 h-full flex flex-col hover:shadow-xl transition-shadow duration-300">
+
+    const isDesktop = window.innerWidth > 900;
+
+    let filteredData;
+    if (isDesktop) {
+        filteredData = menuData;
+        container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center";
+    } else {
+        filteredData = menuData.filter(cat => cat.category === categoryFilter);
+        container.className = "flex justify-center w-full";
+        currentCategory = categoryFilter; 
+    }
+
+    container.innerHTML = filteredData.map(cat => `
+        <div class="w-full flex flex-col h-full transition-all duration-500 animate-fadeIn ${isDesktop ? '' : 'max-w-md'}">
+            <div class="bg-stone-50 p-8 rounded-[2rem] shadow-sm border border-stone-200 h-full flex flex-col">
+                
                 <div class="grid grid-cols-12 gap-0 mb-6 pb-2 border-b border-slate-100 text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em]">
                     <div class="col-span-6">${cat.categoryTitle}</div>
                     <div class="col-span-2 text-center">S</div>
                     <div class="col-span-2 text-center">M</div>
                     <div class="col-span-2 text-center">L</div>
                 </div>
+
                 ${cat.sections.map(section => `
                     <div class="mb-10">
                         <h4 class="text-brand-blue font-black text-base mb-6 flex items-center gap-2">
@@ -134,7 +150,7 @@ function renderMenu() {
                         <div class="space-y-5">
                             ${section.items.map(item => `
                                 <div class="grid grid-cols-12 gap-0 items-center group cursor-default">
-                                    <div class="col-span-6">
+                                    <div class="col-span-6 text-left">
                                         <h6 class="font-bold text-[13px] leading-tight group-hover:text-brand-blue transition-colors">${item.name}</h6>
                                         ${item.desc ? `<p class="text-[9px] text-slate-400 uppercase mt-1 tracking-wider">${item.desc}</p>` : ''}
                                     </div>
@@ -146,9 +162,10 @@ function renderMenu() {
                         </div>
                     </div>
                 `).join('')}
+
                 ${cat.addon ? `
-                    <div class="mt-auto p-5 bg-slate-50 rounded-2xl border-l-4 border-brand-coral">
-                        <div class="flex justify-between items-center">
+                    <div class="mt-auto p-5 bg-white rounded-2xl border-l-4 border-brand-coral">
+                        <div class="flex justify-between items-center text-left">
                             <div><span class="font-black text-brand-coral text-[9px] tracking-widest uppercase block mb-1">* ADD ON</span><h6 class="font-bold text-sm text-slate-800">${cat.addon.name}</h6></div>
                             <div class="text-lg font-black text-brand-blue">${cat.addon.price}</div>
                         </div>
@@ -156,6 +173,30 @@ function renderMenu() {
             </div>
         </div>
     `).join('');
+}
+
+function filterMenu(category) {
+    const buttons = document.querySelectorAll('.category-btn'); 
+    const container = document.getElementById('menu-container');
+
+    if (container) container.style.opacity = '0';
+
+    buttons.forEach(btn => {
+        const btnCategory = btn.getAttribute('data-category');
+
+        if (btnCategory === category) {
+            btn.classList.add('active');
+            btn.classList.remove('text-slate-500', 'border-slate-200');
+        } else {
+            btn.classList.remove('active');
+            btn.classList.add('text-slate-500', 'border-slate-200');
+        }
+    });
+
+    setTimeout(() => {
+        renderMenu(category);
+        if (container) container.style.opacity = '1';
+    }, 300);
 }
 
 function renderReviews() {

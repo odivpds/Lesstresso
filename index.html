@@ -141,13 +141,18 @@
         </div>
     </section>
 
-    <section id="menu" class="py-24 bg-stone-50 reveal">
+    <section id="menu" class="py-24 reveal" style="background-color: white;">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
+            <div class="text-center mb-10"> 
                 <h2 class="text-4xl md:text-5xl font-playfair mb-4">Signature Menu</h2>
                 <p class="text-gray-500 italic">Pilihan terbaik dari biji kopi pilihan</p>
             </div>
-            <!-- Grid akan diatur oleh JS, cukup sediakan ID-nya -->
+            <div class="hidden max-lg:flex flex-wrap justify-center gap-3 mb-10 no-scrollbar px-6" id="menu-tabs">
+                <button onclick="filterMenu('coffee')" data-category="coffee" class="category-btn active px-6 py-2 rounded-full font-bold border transition-all">Coffee</button>
+                <button onclick="filterMenu('non-coffee')" data-category="non-coffee" class="category-btn px-6 py-2 rounded-full font-bold border transition-all">Non-Coffee</button>
+                <button onclick="filterMenu('Food')" data-category="Food" class="category-btn px-6 py-2 rounded-full font-bold border transition-all">Food</button>
+            </div>
+            <!-- Grid Menu -->
             <div id="menu-container"></div>
         </div>
     </section>
@@ -252,6 +257,14 @@
                 }
             }
         }
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                renderMenu(currentCategory);
+            }, 250); 
+        });
     </script>
 </body>
 </html>

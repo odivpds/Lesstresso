@@ -70,6 +70,22 @@ footer {
 body {
     background-color: rgb(255, 255, 255);
 }
+
+.category-btn.active {
+    background-color: #0074E4; 
+    color: white !important;
+    border-color: #0074E4;
+    box-shadow: 0 4px 15px rgba(0, 116, 228, 0.3);
+}
+
+#menu-container {
+    transition: opacity 0.4s ease;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
 #reviews {
     background-color: #ffffff !important; 
 }
