@@ -31,8 +31,10 @@ const menuData = [
                 ]
             }
         ],
-        addon: { name: "Extra Shot Espresso", price: "+5k" }
-    },
+        addons: [
+                { name: "Extra Shot Espresso", price: "+5k" }
+            ]
+        },
     {
         category: "non-coffee",
         categoryTitle: "NON-COFFEE",
@@ -69,10 +71,10 @@ const menuData = [
                 ]
             }
         ],
-        addon: null 
+        addons: null 
     },
     {
-        category: "food",
+        category: "Food",
         categoryTitle: "FOOD",
         sections: [
             {
@@ -186,11 +188,16 @@ function renderMenu(categoryFilter = currentCategory) {
                     </div>
                 `).join('')}
 
-                ${cat.addon ? `
+                ${cat.addons && cat.addons.length > 0 ? `
                     <div class="mt-auto p-5 bg-white rounded-2xl border-l-4 border-brand-coral">
-                        <div class="flex justify-between items-center text-left">
-                            <div><span class="font-black text-brand-coral text-[9px] tracking-widest uppercase block mb-1">* ADD ON</span><h6 class="font-bold text-sm text-slate-800">${cat.addon.name}</h6></div>
-                            <div class="text-lg font-black text-brand-blue">${cat.addon.price}</div>
+                        <span class="font-black text-brand-coral text-[9px] tracking-widest uppercase block mb-2">* ADD ON</span>
+                        <div class="space-y-2">
+                            ${cat.addons.map(extra => `
+                                <div class="flex justify-between items-center text-left border-b border-dashed border-slate-100 pb-1 last:border-0">
+                                    <h6 class="font-bold text-[13px] text-slate-800">${extra.name}</h6>
+                                    <div class="text-sm font-black text-brand-blue">${extra.price}</div>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>` : ''}
             </div>
