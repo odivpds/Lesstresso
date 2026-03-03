@@ -35,72 +35,95 @@ const menuData = [
     },
     {
         category: "non-coffee",
-        categoryTitle: "Non-Coffee",
+        categoryTitle: "NON-COFFEE",
         sections: [
             {
-                name: "SIGNATURE",
-                color: "brand-coral", 
+                name: "POWDER BASED",
+                color: "brand-blue", 
                 items: [
-                    { name: "Iced Coffee Lesstresso", desc: "House Blend Special", s: "22k", m: "26k", l: "29k" },
-                    { name: "Choco Delight", desc: "Premium Cocoa Blend", s: "25k", m: "29k", l: "32k" }
+                    { name: "Matcha (Hot/Ice)", s: "19k", m: "23k", l: "26k" },
+                    { name: "Taro (Hot/Ice)", s: "19k", m: "23k", l: "26k" },
+                    { name: "Chocolate (Hot/Ice)", s: "19k", m: "23k", l: "26k" },
+                    { name: "Red Velvet (Hot/Ice)", s: "19k", m: "23k", l: "26k" }
                 ]
             },
             {
-                name: "CLASSIC COFFEE",
+                name: "REFRESHER",
                 color: "brand-blue",
                 items: [
-                    { name: "Hot Americano", s: "15k", m: "-", l: "-" },
-                    { name: "Iced Americano", s: "20k", m: "24k", l: "27k" },
-                    { name: "Hot Coffee Latte", s: "20k", m: "-", l: "-" },
-                    { name: "Iced Coffee Latte", s: "20k", m: "24k", l: "27k" }
+                    { name: "Ruby Rush", s: "18k", m: "22k", l: "25k" },
+                    { name: "Pixel Potion", s: "18k", m: "22k", l: "25k" },
+                    { name: "Pristine Pop", s: "18k", m: "22k", l: "25k" },
+                    { name: "Crystal Odyssey", s: "18k", m: "22k", l: "25k" }
                 ]
             },
             {
-                name: "FLAVOR COFFEE",
+                name: "TEA",
                 color: "brand-blue",
                 items: [
-                    { name: "Iced Vanilla Latte", s: "20k", m: "24k", l: "27k" },
-                    { name: "Iced Hazelnut Latte", s: "20k", m: "24k", l: "27k" },
-                    { name: "Iced Caramel Latte", s: "20k", m: "24k", l: "27k" }
+                    { name: "Black Tea", s: "-", m: "-", l: "13k" },
+                    { name: "Lychee Tea", s: "-", m: "-", l: "20k" },
+                    { name: "Lemon Tea", s: "-", m: "-", l: "18k" },
+                    { name: "Strawberry Tea", s: "-", m: "-", l: "18k" },
+                    { name: "Milk Tea", s: "-", m: "-", l: "22k" }
                 ]
             }
         ],
-        addon: { name: "Extra Shot Espresso", price: "+5k" }
+        addon: null 
     },
     {
-        category: "Food",
-        categoryTitle: "Food",
+        category: "food",
+        categoryTitle: "FOOD",
         sections: [
             {
-                name: "SIGNATURE",
-                color: "brand-coral", 
+                name: "SNACK",
+                color: "brand-blue", 
                 items: [
-                    { name: "Iced Coffee Lesstresso", desc: "House Blend Special", s: "22k", m: "26k", l: "29k" },
-                    { name: "Choco Delight", desc: "Premium Cocoa Blend", s: "25k", m: "29k", l: "32k" }
+                    { name: "Spring Roll (4pcs / 6pcs / 9pcs)", s: "15k", m: "20k", l: "25k" },
+                    { name: "Crispy Chicken Skin", s: "18k", m: "-", l: "-" },
+                    { name: "French Fries (Balado / BBQ)", s: "13k", m: "-", l: "-" }
                 ]
             },
             {
-                name: "CLASSIC COFFEE",
+                name: "QUICK BITES",
                 color: "brand-blue",
                 items: [
-                    { name: "Hot Americano", s: "15k", m: "-", l: "-" },
-                    { name: "Iced Americano", s: "20k", m: "24k", l: "27k" },
-                    { name: "Hot Coffee Latte", s: "20k", m: "-", l: "-" },
-                    { name: "Iced Coffee Latte", s: "20k", m: "24k", l: "27k" }
+                    { name: "Burger (Chicken/Beef)", s: "22k", m: "-", l: "-" },
+                    { name: "Hotdog (Chicken/Beef)", s: "20k", m: "-", l: "-" },
+                    { name: "Chicken Nugget (4pcs/6pcs/9pcs)*", s: "13k", m: "17k", l: "20k" },
+                    { name: "Chicken Sausage (4pcs/6pcs/9pcs)", s: "15k", m: "19k", l: "22k" },
+                    { name: "Chicken Wings", s: "25k", m: "-", l: "-" }
                 ]
             },
             {
-                name: "FLAVOR COFFEE",
+                name: "SPHAGETTI", 
                 color: "brand-blue",
                 items: [
-                    { name: "Iced Vanilla Latte", s: "20k", m: "24k", l: "27k" },
-                    { name: "Iced Hazelnut Latte", s: "20k", m: "24k", l: "27k" },
-                    { name: "Iced Caramel Latte", s: "20k", m: "24k", l: "27k" }
+                    { name: "Sphagetti Bolognese*", s: "22k", m: "-", l: "-" }
+                ]
+            },
+            {
+                name: "RICE BOWL",
+                color: "brand-blue",
+                items: [
+                    { 
+                        name: "Chicken Katsu", 
+                        desc: "(Teriyaki Sauce/Black Pepper Sauce)", 
+                        s: "25k", m: "-", l: "-" 
+                    },
+                    { 
+                        name: "Chicken Karage", 
+                        desc: "(Teriyaki Sauce/Black Pepper Sauce)", 
+                        s: "25k", m: "-", l: "-" 
+                    }
                 ]
             }
         ],
-        addon: { name: "Extra Shot Espresso", price: "+5k" }
-    },
+        addons: [
+            { name: "Mozzarella Cheese", price: "+5k" },
+            { name: "Cheese Sauce", price: "+5k" }
+        ]
+    }
 ];
 
 const reviewsData = [
