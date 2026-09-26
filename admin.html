@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Lesstresso Coffee</title>
+    <link rel="icon" href="assets/title.jpg" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-blue': '#0074E4',
+                        'brand-coral': '#F26522',
+                        'brand-dark': '#0f172a',
+                    },
+                    fontFamily: {
+                        'jakarta': ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #0074E4;
+        }
+
+        .toggle-checkbox:checked+.toggle-label {
+            background-color: #0074E4;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-brand-dark text-white sticky top-0 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="assets/logo.png" alt="Logo" class="w-9 h-9 rounded-full object-cover">
+                <div>
+                    <span class="font-bold text-lg tracking-tight">lesstresso.</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <!-- <div id="serverStatusBadge"
+                    class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="serverStatusText">Local Storage Mode</span>
+                </div> -->
+                <a href="index.html" target="_blank"
+                    class="text-xs bg-white/10 hover:bg-white/20 transition px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span class="hidden sm:inline">Lihat Website</span>
+                </a>
+                <button onclick="handleLogout()"
+                    class="text-xs bg-red-500/20 hover:bg-red-500/30 text-red-300 transition px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Keluar</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        <!-- Quick Stats Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-xl shrink-0">
+                    <i class="fas fa-mug-hot"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-slate-500">Total Menu</p>
+                    <h3 class="text-2xl font-bold text-slate-800" id="statTotalMenu">0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-slate-500">Menu Tersedia</p>
+                    <h3 class="text-2xl font-bold text-emerald-600" id="statAvailable">0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center text-xl shrink-0">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-slate-500">Menu Habis (Sold Out)</p>
+                    <h3 class="text-2xl font-bold text-rose-500" id="statSoldOut">0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-slate-500">Status Cafe</p>
+                    <h3 class="text-sm font-bold text-slate-800" id="statStoreStatus">Buka (08:00 - 00:00)</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex items-center gap-2 border-b border-slate-200 mb-6 pb-2">
+            <button onclick="switchTab('menuTab')" id="btnTabMenu"
+                class="px-4 py-2 font-bold text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2">
+                <i class="fas fa-utensils"></i> Manajemen Menu
+            </button>
+            <button onclick="switchTab('settingsTab')" id="btnTabSettings"
+                class="px-4 py-2 font-semibold text-sm rounded-xl transition-all text-slate-600 hover:bg-slate-200/70 flex items-center gap-2">
+                <i class="fas fa-store-alt"></i> Pengaturan Cafe & Promo
+            </button>
+            <button onclick="switchTab('pocketbaseTab')" id="btnTabPocketbase"
+                class="px-4 py-2 font-semibold text-sm rounded-xl transition-all text-slate-600 hover:bg-slate-200/70 flex items-center gap-2">
+                <i class="fas fa-server"></i> Koneksi Server
+            </button>
+        </div>
+
+        <!-- TAB 1: MENU MANAGEMENT -->
+        <div id="tabMenuContent" class="space-y-6">
+            <!-- Action Bar: Search, Category Filter & Add Button -->
+            <div
+                class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-4">
+                <!-- Search Box -->
+                <div class="relative w-full md:w-72">
+                    <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="searchMenuInput" oninput="filterMenuItems()" placeholder="Cari nama menu..."
+                        class="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue focus:bg-white transition">
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+                    <button onclick="setCategoryFilter('all')" data-cat="all"
+                        class="cat-pill active px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-brand-blue text-white border-brand-blue">Semua</button>
+                    <button onclick="setCategoryFilter('coffee')" data-cat="coffee"
+                        class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-white text-slate-600 border-slate-200 hover:border-slate-300">Coffee</button>
+                    <button onclick="setCategoryFilter('non-coffee')" data-cat="non-coffee"
+                        class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-white text-slate-600 border-slate-200 hover:border-slate-300">Non-Coffee</button>
+                    <button onclick="setCategoryFilter('Food')" data-cat="Food"
+                        class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-white text-slate-600 border-slate-200 hover:border-slate-300">Food</button>
+                </div>
+
+                <!-- Add Menu Button -->
+                <button onclick="openAddMenuModal()"
+                    class="w-full md:w-auto px-5 py-2.5 bg-brand-coral hover:bg-orange-600 text-white rounded-xl text-sm font-bold shadow-md shadow-orange-500/20 transition flex items-center justify-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    <span>Tambah Menu</span>
+                </button>
+            </div>
+
+            <!-- Menu Table / Card List -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr
+                                class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                                <th class="py-3.5 px-4">Menu & Kategori</th>
+                                <th class="py-3.5 px-4 text-center">Harga (S)</th>
+                                <th class="py-3.5 px-4 text-center">Harga (M)</th>
+                                <th class="py-3.5 px-4 text-center">Harga (L)</th>
+                                <th class="py-3.5 px-4 text-center">Ketersediaan</th>
+                                <th class="py-3.5 px-4 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="menuTableBody" class="divide-y divide-slate-100 text-sm">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: STORE SETTINGS & PROMO -->
+        <div id="tabSettingsContent" class="hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80 max-w-3xl">
+                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <i class="fas fa-sliders-h text-brand-blue"></i>
+                    Informasi Cafe & Kontak
+                </h3>
+
+                <form id="settingsForm" onsubmit="handleSaveSettings(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nama Coffee
+                            Shop</label>
+                        <input type="text" id="settingStoreName"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Tagline
+                            Cafe</label>
+                        <input type="text" id="settingTagline"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nomor
+                                WhatsApp Kasir/Order</label>
+                            <input type="text" id="settingWhatsApp" placeholder="Contoh: 6285183194581"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                            <p class="text-[11px] text-slate-400 mt-1">Gunakan awalan 62 tanpa spasi atau strip.</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Jam
+                                Operasional</label>
+                            <input type="text" id="settingHours" placeholder="Setiap Hari: 08.00 AM - 12.00 AM"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Teks
+                            Pengumuman / Promo Berjalan (Optional)</label>
+                        <input type="text" id="settingAnnouncement"
+                            placeholder="Contoh: Diskon 15% setiap pembelian 2 cup Iced Coffee Lesstresso!"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                        <p class="text-[11px] text-slate-400 mt-1">Teks ini akan muncul sebagai banner promo di atas
+                            navbar website.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Alamat
+                            Lengkap</label>
+                        <textarea id="settingAddress" rows="2"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm"></textarea>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="settingIsOpen"
+                                class="w-4 h-4 text-brand-blue rounded border-slate-300 focus:ring-brand-blue">
+                            <label for="settingIsOpen" class="text-sm font-bold text-slate-700">Toko Sedang Buka</label>
+                        </div>
+
+                        <button type="submit"
+                            class="px-6 py-2.5 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-sm font-bold shadow-md transition flex items-center gap-2">
+                            <i class="fas fa-save"></i>
+                            <span>Simpan Pengaturan</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB 3: POCKETBASE SERVER SYNC -->
+        <div id="tabPocketbaseContent" class="hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80 max-w-3xl">
+                <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <i class="fas fa-server text-brand-blue"></i>
+                    Konfigurasi Server PocketBase
+                </h3>
+                <p class="text-sm text-slate-500 mb-6">Hubungkan dashboard ini ke PocketBase yang berjalan di laptop
+                    atau VPS Linux Anda.</p>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">URL Server
+                            PocketBase</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="pocketbaseUrlInput"
+                                placeholder="http://127.0.0.1:8090 atau https://api.lesstresso.com"
+                                class="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                            <button onclick="testPocketBaseConnection()"
+                                class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-sm font-bold transition">
+                                Tes Koneksi
+                            </button>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-1">Default lokal: <code>http://127.0.0.1:8090</code>.
+                            Jika server belum aktif, CMS otomatis memakai LocalStorage.</p>
+                    </div>
+
+                    <div id="pbTestResult" class="hidden p-4 rounded-xl text-xs font-medium"></div>
+
+                    <div class="pt-6 border-t border-slate-100 flex flex-wrap items-center gap-3">
+                        <button onclick="resetToInitialData()"
+                            class="px-4 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl text-xs font-bold transition flex items-center gap-2">
+                            <i class="fas fa-history"></i>
+                            Reset ke Data Awal Lesstresso
+                        </button>
+                        <button onclick="exportDataJSON()"
+                            class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-2">
+                            <i class="fas fa-download"></i>
+                            Export Data Menu (JSON)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Form: Add / Edit Menu Item -->
+    <div id="menuModal"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div
+            class="bg-white w-full max-w-lg rounded-3xl shadow-2xl p-6 sm:p-8 transform scale-95 transition-all duration-300">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+                <h3 id="modalTitle" class="text-lg font-bold text-slate-800">Tambah Menu Baru</h3>
+                <button onclick="closeMenuModal()"
+                    class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form id="menuForm" onsubmit="handleSaveMenuItem(event)" class="space-y-4">
+                <input type="hidden" id="editItemIndex">
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Menu
+                        *</label>
+                    <input type="text" id="itemName" required placeholder="Contoh: Iced Caramel Macchiato"
+                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Kategori
+                            *</label>
+                        <select id="itemCategory" required
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                            <option value="coffee">Coffee</option>
+                            <option value="non-coffee">Non-Coffee</option>
+                            <option value="Food">Food</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Section
+                            Sub-Grup</label>
+                        <input type="text" id="itemSection" placeholder="SIGNATURE / CLASSIC / SNACK"
+                            class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Deskripsi
+                        Singkat (Opsional)</label>
+                    <input type="text" id="itemDesc" placeholder="Contoh: House Blend with Salted Caramel"
+                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                </div>
+
+                <!-- Prices S, M, L -->
+                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/80">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Harga Sesuai
+                        Ukuran (Tulis "-" jika tidak ada)</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div>
+                            <span class="text-[11px] font-bold text-slate-400 block mb-1">Small (S)</span>
+                            <input type="text" id="itemPriceS" placeholder="20k"
+                                class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-center font-bold">
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold text-slate-400 block mb-1">Medium (M)</span>
+                            <input type="text" id="itemPriceM" placeholder="24k"
+                                class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-center font-bold">
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold text-slate-400 block mb-1">Large (L)</span>
+                            <input type="text" id="itemPriceL" placeholder="27k"
+                                class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-center font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 pt-2">
+                    <input type="checkbox" id="itemAvailable" checked
+                        class="w-4 h-4 text-brand-blue rounded border-slate-300">
+                    <label for="itemAvailable" class="text-sm font-bold text-slate-700">Tersedia (Bukan Sold
+                        Out)</label>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-2">
+                    <button type="button" onclick="closeMenuModal()"
+                        class="px-4 py-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition">Batal</button>
+                    <button type="submit"
+                        class="px-5 py-2 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-sm font-bold shadow-md transition">Simpan
+                        Menu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast"
+        class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-sm transform translate-y-20 opacity-0 transition-all duration-300">
+        <i id="toastIcon" class="fas fa-check-circle text-emerald-400"></i>
+        <span id="toastMsg">Perubahan berhasil disimpan!</span>
+    </div>
+
+    <!-- Admin Logic Script -->
+    <script>
+        // Storage Keys
+        const STORAGE_KEY_MENU = 'lesstresso_menu_items';
+        const STORAGE_KEY_SETTINGS = 'lesstresso_store_settings';
+        const STORAGE_KEY_PB_URL = 'lesstresso_pb_url';
+
+        // Initial Seed Data (Structured for Flat Management)
+        const initialMenuSeed = [
+            // Coffee - SIGNATURE
+            { name: "Iced Coffee Lesstresso", category: "coffee", section: "SIGNATURE", desc: "House Blend Special", s: "22k", m: "26k", l: "29k", isAvailable: true },
+            { name: "Choco Delight", category: "coffee", section: "SIGNATURE", desc: "Premium Cocoa Blend", s: "25k", m: "29k", l: "32k", isAvailable: true },
+            // Coffee - CLASSIC COFFEE
+            { name: "Hot Americano", category: "coffee", section: "CLASSIC COFFEE", desc: "", s: "15k", m: "-", l: "-", isAvailable: true },
+            { name: "Iced Americano", category: "coffee", section: "CLASSIC COFFEE", desc: "", s: "20k", m: "24k", l: "27k", isAvailable: true },
+            { name: "Hot Coffee Latte", category: "coffee", section: "CLASSIC COFFEE", desc: "", s: "20k", m: "-", l: "-", isAvailable: true },
+            { name: "Iced Coffee Latte", category: "coffee", section: "CLASSIC COFFEE", desc: "", s: "20k", m: "24k", l: "27k", isAvailable: true },
+            // Coffee - FLAVOR COFFEE
+            { name: "Iced Vanilla Latte", category: "coffee", section: "FLAVOR COFFEE", desc: "", s: "20k", m: "24k", l: "27k", isAvailable: true },
+            { name: "Iced Hazelnut Latte", category: "coffee", section: "FLAVOR COFFEE", desc: "", s: "20k", m: "24k", l: "27k", isAvailable: true },
+            { name: "Iced Caramel Latte", category: "coffee", section: "FLAVOR COFFEE", desc: "", s: "20k", m: "24k", l: "27k", isAvailable: true },
+            // Non-Coffee - POWDER BASED
+            { name: "Matcha (Hot/Ice)", category: "non-coffee", section: "POWDER BASED", desc: "", s: "19k", m: "23k", l: "26k", isAvailable: true },
+            { name: "Taro (Hot/Ice)", category: "non-coffee", section: "POWDER BASED", desc: "", s: "19k", m: "23k", l: "26k", isAvailable: true },
+            { name: "Chocolate (Hot/Ice)", category: "non-coffee", section: "POWDER BASED", desc: "", s: "19k", m: "23k", l: "26k", isAvailable: true },
+            { name: "Red Velvet (Hot/Ice)", category: "non-coffee", section: "POWDER BASED", desc: "", s: "19k", m: "23k", l: "26k", isAvailable: true },
+            // Non-Coffee - REFRESHER
+            { name: "Ruby Rush", category: "non-coffee", section: "REFRESHER", desc: "", s: "18k", m: "22k", l: "25k", isAvailable: true },
+            { name: "Pixel Potion", category: "non-coffee", section: "REFRESHER", desc: "", s: "18k", m: "22k", l: "25k", isAvailable: true },
+            { name: "Pristine Pop", category: "non-coffee", section: "REFRESHER", desc: "", s: "18k", m: "22k", l: "25k", isAvailable: true },
+            { name: "Crystal Odyssey", category: "non-coffee", section: "REFRESHER", desc: "", s: "18k", m: "22k", l: "25k", isAvailable: true },
+            // Non-Coffee - TEA
+            { name: "Black Tea", category: "non-coffee", section: "TEA", desc: "", s: "-", m: "-", l: "13k", isAvailable: true },
+            { name: "Lychee Tea", category: "non-coffee", section: "TEA", desc: "", s: "-", m: "-", l: "20k", isAvailable: true },
+            { name: "Lemon Tea", category: "non-coffee", section: "TEA", desc: "", s: "-", m: "-", l: "18k", isAvailable: true },
+            { name: "Strawberry Tea", category: "non-coffee", section: "TEA", desc: "", s: "-", m: "-", l: "18k", isAvailable: true },
+            { name: "Milk Tea", category: "non-coffee", section: "TEA", desc: "", s: "-", m: "-", l: "22k", isAvailable: true },
+            // Food - SNACK
+            { name: "Spring Roll (4pcs / 6pcs / 9pcs)", category: "Food", section: "SNACK", desc: "", s: "15k", m: "20k", l: "25k", isAvailable: true },
+            { name: "Crispy Chicken Skin", category: "Food", section: "SNACK", desc: "", s: "18k", m: "-", l: "-", isAvailable: true },
+            { name: "French Fries (Balado / BBQ)", category: "Food", section: "SNACK", desc: "", s: "13k", m: "-", l: "-", isAvailable: true },
+            // Food - QUICK BITES
+            { name: "Burger (Chicken/Beef)", category: "Food", section: "QUICK BITES", desc: "", s: "22k", m: "-", l: "-", isAvailable: true },
+            { name: "Hotdog (Chicken/Beef)", category: "Food", section: "QUICK BITES", desc: "", s: "20k", m: "-", l: "-", isAvailable: true },
+            { name: "Chicken Nugget (4pcs/6pcs/9pcs)*", category: "Food", section: "QUICK BITES", desc: "", s: "13k", m: "17k", l: "20k", isAvailable: true },
+            { name: "Chicken Sausage (4pcs/6pcs/9pcs)", category: "Food", section: "QUICK BITES", desc: "", s: "15k", m: "19k", l: "22k", isAvailable: true },
+            { name: "Chicken Wings", category: "Food", section: "QUICK BITES", desc: "", s: "25k", m: "-", l: "-", isAvailable: true },
+            // Food - SPAGHETTI
+            { name: "Spaghetti Bolognese*", category: "Food", section: "SPAGHETTI", desc: "", s: "22k", m: "-", l: "-", isAvailable: true },
+            // Food - RICE BOWL
+            { name: "Chicken Katsu", category: "Food", section: "RICE BOWL", desc: "(Teriyaki Sauce/Black Pepper Sauce)", s: "25k", m: "-", l: "-", isAvailable: true },
+            { name: "Chicken Karage", category: "Food", section: "RICE BOWL", desc: "(Teriyaki Sauce/Black Pepper Sauce)", s: "25k", m: "-", l: "-", isAvailable: true }
+        ];
+
+        const defaultSettings = {
+            storeName: "Lesstresso Coffee",
+            tagline: "Less Stress, More Espresso ◡̈",
+            whatsapp: "6285183194581",
+            hours: "Setiap Hari: 08.00 AM - 12.00 AM",
+            address: "Jl. Gunung Rinjani No.44A, Kec. Denpasar Bar., Bali 80119",
+            announcement: "",
+            isOpen: true
+        };
+
+        let menuItems = [];
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        // Initialize Data
+        function initData() {
+            const savedMenu = localStorage.getItem(STORAGE_KEY_MENU);
+            if (savedMenu) {
+                try {
+                    menuItems = JSON.parse(savedMenu);
+                } catch (e) {
+                    menuItems = [...initialMenuSeed];
+                }
+            } else {
+                menuItems = [...initialMenuSeed];
+                saveMenuItems();
+            }
+
+            const savedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
+            const settings = savedSettings ? JSON.parse(savedSettings) : defaultSettings;
+            loadSettingsForm(settings);
+
+            const savedPbUrl = localStorage.getItem(STORAGE_KEY_PB_URL) || 'http://127.0.0.1:8090';
+            document.getElementById('pocketbaseUrlInput').value = savedPbUrl;
+
+            renderMenuTable();
+            updateStats();
+        }
+
+        function saveMenuItems() {
+            localStorage.setItem(STORAGE_KEY_MENU, JSON.stringify(menuItems));
+            updateStats();
+        }
+
+        // Render Table
+        function renderMenuTable() {
+            const tbody = document.getElementById('menuTableBody');
+            if (!tbody) return;
+
+            const filtered = menuItems.filter(item => {
+                const matchCategory = (currentFilter === 'all') || (item.category.toLowerCase() === currentFilter.toLowerCase());
+                const matchSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (item.section && item.section.toLowerCase().includes(searchQuery.toLowerCase()));
+                return matchCategory && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="py-12 text-center text-slate-400">
+                            <i class="fas fa-box-open text-3xl mb-2 block"></i>
+                            Tidak ada menu ditemukan.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map((item) => {
+                // Find actual index in primary array
+                const index = menuItems.indexOf(item);
+                const isAvail = item.isAvailable !== false;
+
+                return `
+                    <tr class="hover:bg-slate-50/80 transition-colors ${!isAvail ? 'bg-rose-50/20' : ''}">
+                        <td class="py-3.5 px-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg ${getCategoryColor(item.category)} flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                    ${item.category.substring(0, 1).toUpperCase()}
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-800 flex items-center gap-2">
+                                        <span>${item.name}</span>
+                                        ${!isAvail ? '<span class="bg-rose-500 text-white text-[9px] px-2 py-0.5 rounded-full font-black uppercase">Habis</span>' : ''}
+                                    </div>
+                                    <div class="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
+                                        <span class="font-semibold text-brand-blue uppercase">${item.section || item.category}</span>
+                                        ${item.desc ? `<span>•</span><span>${item.desc}</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-3.5 px-4 text-center font-bold ${item.s === '-' ? 'text-slate-300' : 'text-slate-700'}">${item.s || '-'}</td>
+                        <td class="py-3.5 px-4 text-center font-bold ${item.m === '-' ? 'text-slate-300' : 'text-slate-700'}">${item.m || '-'}</td>
+                        <td class="py-3.5 px-4 text-center font-bold ${item.l === '-' ? 'text-slate-300' : 'text-brand-blue font-extrabold'}">${item.l || '-'}</td>
+                        <td class="py-3.5 px-4 text-center">
+                            <button onclick="toggleAvailability(${index})" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition ${isAvail ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-rose-100 text-rose-700 hover:bg-rose-200'}">
+                                <span class="w-2 h-2 rounded-full ${isAvail ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
+                                ${isAvail ? 'Tersedia' : 'Habis'}
+                            </button>
+                        </td>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                            <button onclick="openEditMenuModal(${index})" class="p-2 text-slate-500 hover:text-brand-blue hover:bg-blue-50 rounded-lg transition" title="Edit Menu">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button onclick="deleteMenuItem(${index})" class="p-2 text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-lg transition" title="Hapus Menu">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function getCategoryColor(cat) {
+            switch (cat.toLowerCase()) {
+                case 'coffee': return 'bg-amber-600';
+                case 'non-coffee': return 'bg-brand-blue';
+                case 'food': return 'bg-brand-coral';
+                default: return 'bg-slate-600';
+            }
+        }
+
+        // Toggle Habis / Tersedia
+        function toggleAvailability(index) {
+            menuItems[index].isAvailable = !menuItems[index].isAvailable;
+            saveMenuItems();
+            renderMenuTable();
+            showToast(menuItems[index].isAvailable ? `"${menuItems[index].name}" kini Tersedia` : `"${menuItems[index].name}" ditandai Habis`);
+        }
+
+        // Filter & Search Handlers
+        function setCategoryFilter(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.classList.add('bg-brand-blue', 'text-white', 'border-brand-blue');
+                    btn.classList.remove('bg-white', 'text-slate-600');
+                } else {
+                    btn.classList.remove('bg-brand-blue', 'text-white', 'border-brand-blue');
+                    btn.classList.add('bg-white', 'text-slate-600');
+                }
+            });
+            renderMenuTable();
+        }
+
+        function filterMenuItems() {
+            searchQuery = document.getElementById('searchMenuInput').value;
+            renderMenuTable();
+        }
+
+        // Modal Handlers
+        function openAddMenuModal() {
+            document.getElementById('modalTitle').textContent = 'Tambah Menu Baru';
+            document.getElementById('editItemIndex').value = '-1';
+            document.getElementById('menuForm').reset();
+            document.getElementById('itemAvailable').checked = true;
+
+            const modal = document.getElementById('menuModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.remove('scale-95');
+        }
+
+        function openEditMenuModal(index) {
+            const item = menuItems[index];
+            document.getElementById('modalTitle').textContent = 'Edit Menu';
+            document.getElementById('editItemIndex').value = index;
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemCategory').value = item.category;
+            document.getElementById('itemSection').value = item.section || '';
+            document.getElementById('itemDesc').value = item.desc || '';
+            document.getElementById('itemPriceS').value = item.s || '-';
+            document.getElementById('itemPriceM').value = item.m || '-';
+            document.getElementById('itemPriceL').value = item.l || '-';
+            document.getElementById('itemAvailable').checked = item.isAvailable !== false;
+
+            const modal = document.getElementById('menuModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.remove('scale-95');
+        }
+
+        function closeMenuModal() {
+            const modal = document.getElementById('menuModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.add('scale-95');
+        }
+
+        function handleSaveMenuItem(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('editItemIndex').value);
+            const newItem = {
+                name: document.getElementById('itemName').value.trim(),
+                category: document.getElementById('itemCategory').value,
+                section: document.getElementById('itemSection').value.trim().toUpperCase() || 'MENU',
+                desc: document.getElementById('itemDesc').value.trim(),
+                s: document.getElementById('itemPriceS').value.trim() || '-',
+                m: document.getElementById('itemPriceM').value.trim() || '-',
+                l: document.getElementById('itemPriceL').value.trim() || '-',
+                isAvailable: document.getElementById('itemAvailable').checked
+            };
+
+            if (index >= 0) {
+                menuItems[index] = newItem;
+                showToast(`Menu "${newItem.name}" berhasil diupdate!`);
+            } else {
+                menuItems.push(newItem);
+                showToast(`Menu "${newItem.name}" berhasil ditambahkan!`);
+            }
+
+            saveMenuItems();
+            renderMenuTable();
+            closeMenuModal();
+        }
+
+        function deleteMenuItem(index) {
+            const item = menuItems[index];
+            if (confirm(`Yakin ingin menghapus menu "${item.name}"?`)) {
+                menuItems.splice(index, 1);
+                saveMenuItems();
+                renderMenuTable();
+                showToast(`Menu "${item.name}" dihapus.`, 'warning');
+            }
+        }
+
+        // Stats Counter
+        function updateStats() {
+            document.getElementById('statTotalMenu').textContent = menuItems.length;
+            const soldOutCount = menuItems.filter(i => i.isAvailable === false).length;
+            const availCount = menuItems.length - soldOutCount;
+
+            document.getElementById('statAvailable').textContent = availCount;
+            document.getElementById('statSoldOut').textContent = soldOutCount;
+        }
+
+        // Settings Handlers
+        function loadSettingsForm(settings) {
+            document.getElementById('settingStoreName').value = settings.storeName || '';
+            document.getElementById('settingTagline').value = settings.tagline || '';
+            document.getElementById('settingWhatsApp').value = settings.whatsapp || '';
+            document.getElementById('settingHours').value = settings.hours || '';
+            document.getElementById('settingAddress').value = settings.address || '';
+            document.getElementById('settingAnnouncement').value = settings.announcement || '';
+            document.getElementById('settingIsOpen').checked = settings.isOpen !== false;
+            document.getElementById('statStoreStatus').textContent = settings.isOpen ? `Buka (${settings.hours || 'Setiap Hari'})` : 'Tutup Sementara';
+        }
+
+        function handleSaveSettings(e) {
+            e.preventDefault();
+            const newSettings = {
+                storeName: document.getElementById('settingStoreName').value.trim(),
+                tagline: document.getElementById('settingTagline').value.trim(),
+                whatsapp: document.getElementById('settingWhatsApp').value.trim(),
+                hours: document.getElementById('settingHours').value.trim(),
+                address: document.getElementById('settingAddress').value.trim(),
+                announcement: document.getElementById('settingAnnouncement').value.trim(),
+                isOpen: document.getElementById('settingIsOpen').checked
+            };
+
+            localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(newSettings));
+            document.getElementById('statStoreStatus').textContent = newSettings.isOpen ? `Buka (${newSettings.hours})` : 'Tutup Sementara';
+            showToast("Pengaturan Cafe berhasil disimpan!");
+        }
+
+        // Tab Switching
+        function switchTab(tab) {
+            document.getElementById('tabMenuContent').classList.add('hidden');
+            document.getElementById('tabSettingsContent').classList.add('hidden');
+            document.getElementById('tabPocketbaseContent').classList.add('hidden');
+
+            const btnMenu = document.getElementById('btnTabMenu');
+            const btnSettings = document.getElementById('btnTabSettings');
+            const btnPb = document.getElementById('btnTabPocketbase');
+
+            [btnMenu, btnSettings, btnPb].forEach(btn => {
+                btn.className = "px-4 py-2 font-semibold text-sm rounded-xl transition-all text-slate-600 hover:bg-slate-200/70 flex items-center gap-2";
+            });
+
+            if (tab === 'menuTab') {
+                document.getElementById('tabMenuContent').classList.remove('hidden');
+                btnMenu.className = "px-4 py-2 font-bold text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2";
+            } else if (tab === 'settingsTab') {
+                document.getElementById('tabSettingsContent').classList.remove('hidden');
+                btnSettings.className = "px-4 py-2 font-bold text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2";
+            } else if (tab === 'pocketbaseTab') {
+                document.getElementById('tabPocketbaseContent').classList.remove('hidden');
+                btnPb.className = "px-4 py-2 font-bold text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2";
+            }
+        }
+
+        // PocketBase Connection Test
+        async function testPocketBaseConnection() {
+            const url = document.getElementById('pocketbaseUrlInput').value.trim();
+            const resBox = document.getElementById('pbTestResult');
+            resBox.className = "p-4 rounded-xl text-xs font-medium block bg-blue-50 text-blue-700";
+            resBox.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Menghubungi server ' + url + '...';
+
+            localStorage.setItem(STORAGE_KEY_PB_URL, url);
+
+            try {
+                const response = await fetch(`${url}/api/health`, { method: 'GET' });
+                if (response.ok) {
+                    resBox.className = "p-4 rounded-xl text-xs font-medium block bg-emerald-50 text-emerald-700 border border-emerald-200";
+                    resBox.innerHTML = `<strong>✅ Sukses Terhubung!</strong> PocketBase aktif di ${url}. Anda bisa mengaktifkan mode server live.`;
+                    document.getElementById('serverStatusBadge').className = "hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                    document.getElementById('serverStatusText').textContent = "PocketBase Server Connected";
+                } else {
+                    throw new Error('Server mengembalikan status ' + response.status);
+                }
+            } catch (err) {
+                resBox.className = "p-4 rounded-xl text-xs font-medium block bg-amber-50 text-amber-700 border border-amber-200";
+                resBox.innerHTML = `<strong>⚠️ Server Belum Aktif:</strong> Tidak dapat terhubung ke ${url}. Saat ini dashboard otomatis menggunakan <strong>LocalStorage (Offline Ready)</strong>, jadi semua perubahan menu tetap berfungsi normal!`;
+            }
+        }
+
+        function resetToInitialData() {
+            if (confirm("Kembalikan daftar menu ke menu awal Lesstresso?")) {
+                menuItems = [...initialMenuSeed];
+                saveMenuItems();
+                renderMenuTable();
+                showToast("Menu berhasil di-reset ke data bawaan.");
+            }
+        }
+
+        function exportDataJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(menuItems, null, 2));
+            const dl = document.createElement('a');
+            dl.setAttribute("href", dataStr);
+            dl.setAttribute("download", "lesstresso_menu.json");
+            dl.click();
+        }
+
+        function handleLogout() {
+            if (confirm("Keluar dari Admin CMS?")) {
+                window.location.href = "index.html";
+            }
+        }
+
+        // Toast Feedback
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.textContent = msg;
+            if (type === 'warning') {
+                toastIcon.className = "fas fa-exclamation-circle text-amber-400";
+            } else {
+                toastIcon.className = "fas fa-check-circle text-emerald-400";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Start
+        document.addEventListener('DOMContentLoaded', initData);
+    </script>
+</body>
+
+</html>

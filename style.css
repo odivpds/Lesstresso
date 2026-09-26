@@ -95,6 +95,22 @@ body {
     visibility: visible !important;
 }
 
+.menu-item-soldout {
+    opacity: 0.5;
+}
+
+.sold-out-tag {
+    background-color: #ef4444;
+    color: white;
+    font-size: 8px;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-left: 6px;
+}
+
 /* --- ENTRANCE ANIMATION LOGIC --- */
 .load-nav {
     transform: translateY(-50px);
