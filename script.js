@@ -185,14 +185,13 @@ function transformFlatItemsToMenu(flatItems) {
     });
 }
 
-// Load dynamic data from CMS (PocketBase / LocalStorage)
+// Load dynamic data from CMS (Node.js + SQLite REST API with Fallback)
 async function loadCMSData() {
-    const pbUrl = localStorage.getItem('lesstresso_pb_url') || 'http://127.0.0.1:8090';
     let dataLoaded = false;
 
-    // 1. Try PocketBase REST API
+    // 1. Fetch directly from SQLite REST API
     try {
-        const res = await fetch(`${pbUrl}/api/collections/menu_items/records?perPage=200`, { method: 'GET' });
+        const res = await fetch('/api/menu');
         if (res.ok) {
             const json = await res.json();
             if (json.items && json.items.length > 0) {
@@ -201,10 +200,10 @@ async function loadCMSData() {
             }
         }
     } catch(err) {
-        // PocketBase server is offline, fallback gracefully
+        // API server offline or running as static file, try local cache
     }
 
-    // 2. Try LocalStorage if PocketBase is not connected
+    // 2. Try LocalStorage fallback
     if (!dataLoaded) {
         const localMenu = localStorage.getItem('lesstresso_menu_items');
         if (localMenu) {
@@ -226,20 +225,36 @@ async function loadCMSData() {
     }
 
     // Apply store settings (Phone, Hours, Announcement)
-    applyStoreSettings();
+    await applyStoreSettings();
 
     // Render menu with loaded data
     renderMenu(currentCategory);
 }
 
 // Apply Store Settings (Contact, Operating Hours, Announcement)
-function applyStoreSettings() {
-    const localSettings = localStorage.getItem('lesstresso_store_settings');
-    if (!localSettings) return;
+async function applyStoreSettings() {
+    let settings = null;
+
+    // 1. Fetch settings from SQLite REST API
+    try {
+        const res = await fetch('/api/settings');
+        if (res.ok) {
+            const data = await res.json();
+            if (data.settings) settings = data.settings;
+        }
+    } catch(e) {}
+
+    // 2. Fallback to localStorage settings
+    if (!settings) {
+        const localSettings = localStorage.getItem('lesstresso_store_settings');
+        if (localSettings) {
+            try { settings = JSON.parse(localSettings); } catch(err) {}
+        }
+    }
+
+    if (!settings) return;
 
     try {
-        const settings = JSON.parse(localSettings);
-
         // Update WhatsApp Floating CTA Link
         if (settings.whatsapp) {
             const cleanWa = settings.whatsapp.replace(/\D/g, '');
