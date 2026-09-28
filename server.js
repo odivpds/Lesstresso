@@ -55,8 +55,8 @@ function initDatabase() {
     // Seed default admin if not exists
     const adminCount = db.prepare('SELECT COUNT(*) as count FROM admin_users').get().count;
     if (adminCount === 0) {
-        const defaultUser = process.env.ADMIN_DEFAULT_USER || 'admin';
-        const defaultPass = process.env.ADMIN_DEFAULT_PASS || 'admin123';
+        const defaultUser = process.env.ADMIN_DEFAULT_USER || '';
+        const defaultPass = process.env.ADMIN_DEFAULT_PASS || '';
         const hash = bcrypt.hashSync(defaultPass, 10);
         db.prepare('INSERT INTO admin_users (username, password_hash) VALUES (?, ?)').run(defaultUser, hash);
         console.log(`[Database] Akun admin awal dibuat: Username "${defaultUser}", Password "${defaultPass}"`);
@@ -233,7 +233,7 @@ app.get('/api/menu', (req, res) => {
             isAvailable: r.is_available === 1
         }));
         res.json({ success: true, count: items.length, items });
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
 });
@@ -267,7 +267,7 @@ app.post('/api/menu', authenticateToken, (req, res) => {
             id: info.lastInsertRowid,
             message: `Menu "${name}" berhasil ditambahkan.`
         });
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
 });
@@ -301,7 +301,7 @@ app.put('/api/menu/:id', authenticateToken, (req, res) => {
         }
 
         res.json({ success: true, message: `Menu "${name}" berhasil diperbarui.` });
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
 });
@@ -323,7 +323,7 @@ app.patch('/api/menu/:id/toggle', authenticateToken, (req, res) => {
             isAvailable: newStatus === 1,
             message: `Status "${current.name}" diubah menjadi ${newStatus === 1 ? 'Tersedia' : 'Habis'}.`
         });
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
 });
@@ -337,7 +337,7 @@ app.delete('/api/menu/:id', authenticateToken, (req, res) => {
             return res.status(404).json({ success: false, message: 'Menu tidak ditemukan.' });
         }
         res.json({ success: true, message: 'Menu berhasil dihapus.' });
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
 });
@@ -359,7 +359,7 @@ app.get('/api/settings', (req, res) => {
             }
         });
         res.json({ success: true, settings });
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
 });
@@ -381,7 +381,7 @@ app.post('/api/settings', authenticateToken, (req, res) => {
 
         updateMany(settings);
         res.json({ success: true, message: 'Pengaturan cafe berhasil disimpan.' });
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
 });

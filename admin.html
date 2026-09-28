@@ -87,8 +87,8 @@
 
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
                 <div
-                    class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
-                    <i class="fas fa-check-circle"></i>
+                    class="w-12 h-12 rounded-xl bg-green-50 text-brand-green flex items-center justify-center text-xl shrink-0">
+                    <i class="fas fa-mug-hot"></i>
                 </div>
                 <div>
                     <p class="text-xs font-medium text-slate-500">Menu Tersedia</p>
@@ -98,8 +98,8 @@
 
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
                 <div
-                    class="w-12 h-12 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center text-xl shrink-0">
-                    <i class="fas fa-times-circle"></i>
+                    class="w-12 h-12 rounded-xl bg-red-50 text-brand-red flex items-center justify-center text-xl shrink-0">
+                    <i class="fas fa-mug-hot"></i>
                 </div>
                 <div>
                     <p class="text-xs font-medium text-slate-500">Menu Habis (Sold Out)</p>
@@ -174,12 +174,11 @@
                                 <th class="py-3.5 px-4 text-center">Harga (S)</th>
                                 <th class="py-3.5 px-4 text-center">Harga (M)</th>
                                 <th class="py-3.5 px-4 text-center">Harga (L)</th>
-                                <th class="py-3.5 px-4 text-center">Ketersediaan (1-Klik)</th>
+                                <th class="py-3.5 px-4 text-center">Ketersediaan</th>
                                 <th class="py-3.5 px-4 text-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="menuTableBody" class="divide-y divide-slate-100 text-sm">
-                            <!-- Populated dynamically from SQLite database -->
                         </tbody>
                     </table>
                 </div>
@@ -367,14 +366,29 @@
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Password Saat
                         Ini</label>
-                    <input type="password" id="currentPassInput" required
-                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                    <div class="relative">
+                        <input type="password" id="currentPassInput" required placeholder="Masukkan password saat ini"
+                            class="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm transition">
+                        <button type="button" onclick="togglePasswordVisibility('currentPassInput', 'eyeIconCurrent')"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition p-1 cursor-pointer"
+                            title="Lihat password">
+                            <i id="eyeIconCurrent" class="fas fa-eye text-sm"></i>
+                        </button>
+                    </div>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Password Baru
                         (Min. 6 Karakter)</label>
-                    <input type="password" id="newPassInput" minlength="6" required
-                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                    <div class="relative">
+                        <input type="password" id="newPassInput" minlength="6" required
+                            placeholder="Masukkan password baru"
+                            class="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm transition">
+                        <button type="button" onclick="togglePasswordVisibility('newPassInput', 'eyeIconNew')"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition p-1 cursor-pointer"
+                            title="Lihat password">
+                            <i id="eyeIconNew" class="fas fa-eye text-sm"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-2">
                     <button type="button" onclick="closeChangePasswordModal()"
@@ -394,7 +408,7 @@
             <div class="text-center mb-6">
                 <img src="assets/logo.png" alt="Logo"
                     class="w-16 h-16 rounded-full mx-auto mb-3 shadow-md object-cover">
-                <h2 class="text-2xl font-black text-slate-800 tracking-tight">Login CMS Lesstresso</h2>
+                <h2 class="text-2xl font-black text-slate-800 tracking-tight">Login Admin Lesstresso</h2>
                 <p class="text-xs text-slate-500 mt-1">Masuk untuk mengelola menu & cafe</p>
             </div>
 
@@ -404,8 +418,9 @@
                         class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Username</label>
                     <div class="relative">
                         <i class="fas fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                        <input type="text" id="loginUsername" required value="admin"
-                            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm font-semibold">
+                        <input type="text" id="loginUsername" required placeholder="Masukkan username"
+                            autocomplete="username"
+                            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm font-semibold transition">
                     </div>
                 </div>
 
@@ -414,12 +429,15 @@
                         class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Password</label>
                     <div class="relative">
                         <i class="fas fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                        <input type="password" id="loginPassword" required value="admin123"
-                            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm font-semibold">
+                        <input type="password" id="loginPassword" required placeholder="Masukkan password"
+                            autocomplete="current-password"
+                            class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm font-semibold transition">
+                        <button type="button" onclick="togglePasswordVisibility('loginPassword', 'eyeIconLogin')"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition p-1 cursor-pointer"
+                            title="Lihat password">
+                            <i id="eyeIconLogin" class="fas fa-eye text-sm"></i>
+                        </button>
                     </div>
-                    <p class="text-[11px] text-slate-400 mt-1.5">Default bawaan: <code>admin</code> /
-                        <code>admin123</code>
-                    </p>
                 </div>
 
                 <div id="loginError" class="hidden p-3 rounded-xl bg-rose-50 text-rose-600 text-xs font-semibold"></div>
@@ -430,6 +448,31 @@
                     <span>Masuk ke Dashboard</span>
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal (Replaces native browser alert/confirm) -->
+    <div id="customConfirmModal"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div
+            class="bg-white w-full max-w-sm rounded-3xl shadow-2xl p-6 sm:p-7 text-center transform scale-95 transition-all duration-300 border border-slate-100">
+            <div id="confirmIconWrapper"
+                class="w-14 h-14 mx-auto rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-2xl mb-4 shadow-sm">
+                <i id="confirmIcon" class="fas fa-sign-out-alt"></i>
+            </div>
+            <h3 id="confirmTitle" class="text-xl font-bold text-slate-800 mb-2">Keluar dari Admin?</h3>
+            <p id="confirmMessage" class="text-xs text-slate-500 mb-6 leading-relaxed">Sesi Anda akan diakhiri. Anda
+                perlu memasukkan username dan password kembali untuk mengakses panel ini.</p>
+            <div class="flex items-center justify-center gap-3">
+                <button type="button" onclick="closeCustomConfirm()"
+                    class="w-1/2 py-2.5 px-4 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
+                    Batal
+                </button>
+                <button type="button" id="confirmBtnAction" onclick="handleConfirmActionClick()"
+                    class="w-1/2 py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 shadow-md shadow-rose-500/25 transition cursor-pointer">
+                    Ya, Keluar
+                </button>
+            </div>
         </div>
     </div>
 
@@ -485,9 +528,37 @@
             }
         }
 
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (!input || !icon) return;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash text-sm';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye text-sm';
+            }
+        }
+
         function showLoginModal() {
             const modal = document.getElementById('loginModal');
             modal.classList.remove('opacity-0', 'pointer-events-none');
+
+            // Clear inputs so it is never auto-filled
+            const usernameInput = document.getElementById('loginUsername');
+            const passInput = document.getElementById('loginPassword');
+            const eyeIcon = document.getElementById('eyeIconLogin');
+            const errBox = document.getElementById('loginError');
+
+            if (usernameInput) usernameInput.value = '';
+            if (passInput) {
+                passInput.value = '';
+                passInput.type = 'password';
+            }
+            if (eyeIcon) eyeIcon.className = 'fas fa-eye text-sm';
+            if (errBox) errBox.classList.add('hidden');
         }
 
         function hideLoginModal() {
@@ -533,12 +604,59 @@
             }
         }
 
-        function handleLogout() {
-            if (confirm('Keluar dari panel Admin?')) {
-                localStorage.removeItem(TOKEN_KEY);
-                authToken = '';
-                showLoginModal();
+        let confirmActionCallback = null;
+
+        function showCustomConfirm({ title, message, icon = 'fa-sign-out-alt', iconColor = 'text-rose-500', iconBg = 'bg-rose-50', confirmText = 'Ya, Lanjutkan', confirmBtnClass = 'bg-rose-500 hover:bg-rose-600 shadow-rose-500/25', onConfirm }) {
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMessage').textContent = message;
+
+            const iconEl = document.getElementById('confirmIcon');
+            iconEl.className = `fas ${icon}`;
+
+            const iconWrap = document.getElementById('confirmIconWrapper');
+            iconWrap.className = `w-14 h-14 mx-auto rounded-2xl ${iconBg} ${iconColor} flex items-center justify-center text-2xl mb-4 shadow-sm`;
+
+            const btnAction = document.getElementById('confirmBtnAction');
+            btnAction.textContent = confirmText;
+            btnAction.className = `w-1/2 py-2.5 px-4 rounded-xl text-xs font-bold text-white ${confirmBtnClass} shadow-md transition cursor-pointer`;
+
+            confirmActionCallback = onConfirm;
+
+            const modal = document.getElementById('customConfirmModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.remove('scale-95');
+        }
+
+        function closeCustomConfirm() {
+            const modal = document.getElementById('customConfirmModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.add('scale-95');
+            confirmActionCallback = null;
+        }
+
+        function handleConfirmActionClick() {
+            if (typeof confirmActionCallback === 'function') {
+                confirmActionCallback();
             }
+            closeCustomConfirm();
+        }
+
+        function handleLogout() {
+            showCustomConfirm({
+                title: 'Keluar dari Admin?',
+                message: 'Sesi login Anda akan diakhiri. Anda perlu memasukkan username dan password kembali untuk mengakses panel ini.',
+                icon: 'fa-sign-out-alt',
+                iconColor: 'text-rose-500',
+                iconBg: 'bg-rose-50',
+                confirmText: 'Ya, Keluar',
+                confirmBtnClass: 'bg-rose-500 hover:bg-rose-600 shadow-rose-500/25',
+                onConfirm: () => {
+                    localStorage.removeItem(TOKEN_KEY);
+                    authToken = '';
+                    showLoginModal();
+                    showToast('Anda telah berhasil keluar.', 'warning');
+                }
+            });
         }
 
         // Initialize Dashboard Data from SQLite
@@ -617,7 +735,6 @@
                                 <div>
                                     <div class="font-bold text-slate-800 flex items-center gap-2">
                                         <span>${item.name}</span>
-                                        ${!isAvail ? '<span class="bg-rose-500 text-white text-[9px] px-2 py-0.5 rounded-full font-black uppercase">Habis</span>' : ''}
                                     </div>
                                     <div class="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
                                         <span class="font-semibold text-brand-blue uppercase">${item.section || item.category}</span>
@@ -776,24 +893,33 @@
         }
 
         // Delete Menu from SQLite
-        async function deleteMenuItem(id, name) {
-            if (confirm(`Yakin ingin menghapus menu "${name}" secara permanen?`)) {
-                try {
-                    const res = await fetch(`${API_BASE}/menu/${id}`, {
-                        method: 'DELETE',
-                        headers: getAuthHeaders()
-                    });
-                    const data = await res.json();
-                    if (data.success) {
-                        showToast(`Menu "${name}" berhasil dihapus.`);
-                        await loadMenuFromDB();
-                    } else {
-                        showToast(data.message || 'Gagal menghapus.', 'warning');
+        function deleteMenuItem(id, name) {
+            showCustomConfirm({
+                title: 'Hapus Menu?',
+                message: `Apakah Anda yakin ingin menghapus menu "${name}" secara permanen dari database SQLite?`,
+                icon: 'fa-trash-alt',
+                iconColor: 'text-rose-500',
+                iconBg: 'bg-rose-50',
+                confirmText: 'Ya, Hapus',
+                confirmBtnClass: 'bg-rose-500 hover:bg-rose-600 shadow-rose-500/25',
+                onConfirm: async () => {
+                    try {
+                        const res = await fetch(`${API_BASE}/menu/${id}`, {
+                            method: 'DELETE',
+                            headers: getAuthHeaders()
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            showToast(`Menu "${name}" berhasil dihapus.`);
+                            await loadMenuFromDB();
+                        } else {
+                            showToast(data.message || 'Gagal menghapus.', 'warning');
+                        }
+                    } catch (err) {
+                        showToast('Koneksi server gagal.', 'warning');
                     }
-                } catch (err) {
-                    showToast('Koneksi server gagal.', 'warning');
                 }
-            }
+            });
         }
 
         // Save Store Settings to SQLite
