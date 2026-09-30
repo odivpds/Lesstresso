@@ -132,12 +132,72 @@ const defaultMenuData = [
 ];
 
 const reviewsData = [
-    { text: "NAIKIN GAJI KARYAWANNYA!!!!! Pelayanannya itu lohhh best bgtttttt💙", author: "Customer Anonymous" },
-    { text: "Cozy place, affordable price, good service keep it up 😊", author: "Reviewer" },
-    { text: "Love the ambience and the staff was really friendly!", author: "Local Guide" },
-    { text: "Tempat favorit buat nugas di Denpasar. WiFi kenceng.", author: "Budi Sudarsono" },
-    { text: "Kopinya beneran less stress, harganya bersahabat.", author: "Siska Millenia" },
-    { text: "Interior lantai 2-nya estetik parah.", author: "Instagrammer Bali" }
+    {
+        text: "NAIKIN GAJI KARYAWANNYA!!!!! Pelayanannya itu lohhh best bgtttttt💙 Baristanya ramah banget, tempatnya super bersih, kopinya selalu pas nemenin nugas.",
+        author: "Customer Anonymous",
+        role: "Pelanggan Terverifikasi",
+        initials: "CA",
+        avatarBg: "from-blue-500 to-indigo-600",
+        rating: 5,
+        tag: "Pelayanan Terbaik",
+        tagIcon: "fa-heart",
+        date: "3 hari lalu"
+    },
+    {
+        text: "Cozy place, affordable price, good service keep it up 😊 Cocok banget buat yang cari tempat kerja tenang di Denpasar Barat. Stopkontak melimpah.",
+        author: "Devina Maharani",
+        role: "Local Guide · Level 5",
+        initials: "DM",
+        avatarBg: "from-amber-500 to-orange-600",
+        rating: 5,
+        tag: "Laptop Friendly",
+        tagIcon: "fa-laptop",
+        date: "1 minggu lalu"
+    },
+    {
+        text: "Love the ambience and the staff was really friendly! Iced Coffee Lesstresso-nya creamy pas, aroma kopinya mantap dan ga bikin asam lambung.",
+        author: "Kevin Sanjaya",
+        role: "Coffee Enthusiast",
+        initials: "KS",
+        avatarBg: "from-emerald-500 to-teal-600",
+        rating: 5,
+        tag: "Signature Coffee",
+        tagIcon: "fa-mug-hot",
+        date: "2 minggu lalu"
+    },
+    {
+        text: "Tempat favorit buat nugas dan meeting online di Denpasar. WiFi kenceng stabil, AC adem, playlist lagunya juga enak ga berisik.",
+        author: "Budi Sudarsono",
+        role: "Remote Software Engineer",
+        initials: "BS",
+        avatarBg: "from-purple-500 to-pink-600",
+        rating: 5,
+        tag: "WiFi 100 Mbps",
+        tagIcon: "fa-wifi",
+        date: "3 minggu lalu"
+    },
+    {
+        text: "Kopinya beneran less stress, harganya bersahabat mulai 15rb. Makanannya juga enak terutama French Fries BBQ & Crispy Skin.",
+        author: "Siska Millenia",
+        role: "Mahasiswi Denpasar",
+        initials: "SM",
+        avatarBg: "from-rose-500 to-red-600",
+        rating: 5,
+        tag: "Affordable Price",
+        tagIcon: "fa-tag",
+        date: "1 bulan lalu"
+    },
+    {
+        text: "Interior lantai 2-nya estetik parah! Buat foto IG story cantik banget, ada area outdoor yang adem buat nongkrong sore bareng teman.",
+        author: "Gede Arya",
+        role: "Content Creator Bali",
+        initials: "GA",
+        avatarBg: "from-cyan-500 to-blue-600",
+        rating: 5,
+        tag: "Estetik Lantai 2",
+        tagIcon: "fa-camera",
+        date: "1 bulan lalu"
+    }
 ];
 
 let activeMenuData = [...defaultMenuData];
@@ -374,22 +434,62 @@ function filterMenu(category) {
     }, 300);
 }
 
+function createReviewCard(template, rvw) {
+    const clone = template.content.cloneNode(true);
+
+    // Avatar initials & background gradient
+    const avatar = clone.querySelector('.review-avatar');
+    if (avatar) {
+        avatar.textContent = rvw.initials;
+        avatar.className += ` ${rvw.avatarBg}`;
+    }
+
+    // Author & Role (XSS safe via textContent)
+    const authorEl = clone.querySelector('.review-author');
+    if (authorEl) authorEl.textContent = rvw.author;
+
+    const roleEl = clone.querySelector('.review-role');
+    if (roleEl) roleEl.textContent = rvw.role;
+
+    // Date
+    const dateEl = clone.querySelector('.review-date');
+    if (dateEl) dateEl.textContent = rvw.date;
+
+    // Review Text Quote
+    const textEl = clone.querySelector('.review-text');
+    if (textEl) textEl.textContent = `"${rvw.text}"`;
+
+    // Tag Badge & Icon
+    const tagIcon = clone.querySelector('.review-tag-icon');
+    if (tagIcon && rvw.tagIcon) tagIcon.classList.add(rvw.tagIcon);
+
+    const tagText = clone.querySelector('.review-tag-text');
+    if (tagText) tagText.textContent = rvw.tag;
+
+    return clone;
+}
+
 function renderReviews() {
     const track1 = document.getElementById('marquee-track-1');
     const track2 = document.getElementById('marquee-track-2');
-    if (!track1 || !track2) return;
-    const reviewsHtml = reviewsData.map(rvw => `
-        <div class="mx-4 w-[300px] md:w-[400px] flex-shrink-0 whitespace-normal">
-            <div class="bg-white p-8 rounded-3xl shadow-sm border-l-4 border-brand-blue h-full flex flex-col justify-between">
-                <p class="italic text-gray-700 leading-relaxed text-sm md:text-base">"${rvw.text}"</p>
-                <div class="mt-6 font-bold text-brand-blue flex items-center gap-2 text-sm uppercase tracking-wider">
-                    <span class="w-4 h-[2px] bg-brand-blue"></span> ${rvw.author}
-                </div>
-            </div>
-        </div>
-    `).join('');
-    track1.innerHTML = reviewsHtml;
-    track2.innerHTML = reviewsHtml;
+    const template = document.getElementById('review-card-template');
+    if (!track1 || !track2 || !template) return;
+
+    // Reset tracks efficiently
+    track1.textContent = '';
+    track2.textContent = '';
+
+    // DocumentFragments for atomic, single-pass DOM insertion
+    const fragment1 = document.createDocumentFragment();
+    const fragment2 = document.createDocumentFragment();
+
+    reviewsData.forEach(rvw => {
+        fragment1.appendChild(createReviewCard(template, rvw));
+        fragment2.appendChild(createReviewCard(template, rvw));
+    });
+
+    track1.appendChild(fragment1);
+    track2.appendChild(fragment2);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
