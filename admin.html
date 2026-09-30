@@ -30,6 +30,13 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 
@@ -37,32 +44,35 @@
 
     <!-- Top Navigation Bar -->
     <header class="bg-brand-dark text-white sticky top-0 z-40 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <img src="assets/logo.png" alt="Logo" class="w-9 h-9 rounded-full object-cover">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
+                <img src="assets/logo.png" alt="Logo" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover">
                 <div>
-                    <span class="font-bold text-lg tracking-tight">lesstresso.</span>
+                    <span class="font-bold text-base sm:text-lg tracking-tight">lesstresso.</span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1.5 sm:gap-3">
                 <div id="userBadge"
-                    class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-stone-200">
+                    class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-stone-200">
                     <i class="fas fa-user-circle text-brand-blue"></i>
                     <span id="loggedInUsername">admin</span>
                 </div>
                 <button onclick="openChangePasswordModal()"
-                    class="text-xs bg-white/10 hover:bg-white/20 transition px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-stone-200">
+                    class="text-xs bg-white/10 hover:bg-white/20 transition px-2.5 py-1.5 sm:px-3 rounded-lg flex items-center gap-1.5 text-stone-200"
+                    title="Ganti Password">
                     <i class="fas fa-key"></i>
-                    <span class="hidden md:inline">Ganti Password</span>
+                    <span class="hidden lg:inline">Ganti Password</span>
                 </button>
                 <a href="index.html" target="_blank"
-                    class="text-xs bg-white/10 hover:bg-white/20 transition px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-stone-200">
+                    class="text-xs bg-white/10 hover:bg-white/20 transition px-2.5 py-1.5 sm:px-3 rounded-lg flex items-center gap-1.5 text-stone-200"
+                    title="Lihat Website">
                     <i class="fas fa-external-link-alt"></i>
                     <span class="hidden sm:inline">Lihat Web</span>
                 </a>
                 <button onclick="handleLogout()"
-                    class="text-xs bg-red-500/20 hover:bg-red-500/30 text-red-300 transition px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                    class="text-xs bg-red-500/20 hover:bg-red-500/30 text-red-300 transition px-2.5 py-1.5 sm:px-3 rounded-lg flex items-center gap-1.5"
+                    title="Keluar dari Admin">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Keluar</span>
                 </button>
@@ -71,101 +81,104 @@
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 flex-1 w-full">
         <!-- Quick Stats Cards -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-2.5 sm:gap-4">
                 <div
-                    class="w-12 h-12 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-xl shrink-0">
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-lg sm:text-xl shrink-0">
                     <i class="fas fa-mug-hot"></i>
                 </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-500">Total Menu</p>
-                    <h3 class="text-2xl font-bold text-slate-800" id="statTotalMenu">0</h3>
+                <div class="min-w-0 flex-1">
+                    <p class="text-[11px] sm:text-xs font-medium text-slate-500 truncate">Total Menu</p>
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-800" id="statTotalMenu">0</h3>
                 </div>
             </div>
 
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
+            <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-2.5 sm:gap-4">
                 <div
-                    class="w-12 h-12 rounded-xl bg-green-50 text-brand-green flex items-center justify-center text-xl shrink-0">
-                    <i class="fas fa-mug-hot"></i>
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg sm:text-xl shrink-0">
+                    <i class="fas fa-check-circle"></i>
                 </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-500">Menu Tersedia</p>
-                    <h3 class="text-2xl font-bold text-emerald-600" id="statAvailable">0</h3>
+                <div class="min-w-0 flex-1">
+                    <p class="text-[11px] sm:text-xs font-medium text-slate-500 truncate">Tersedia</p>
+                    <h3 class="text-xl sm:text-2xl font-bold text-emerald-600" id="statAvailable">0</h3>
                 </div>
             </div>
 
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
+            <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-2.5 sm:gap-4">
                 <div
-                    class="w-12 h-12 rounded-xl bg-red-50 text-brand-red flex items-center justify-center text-xl shrink-0">
-                    <i class="fas fa-mug-hot"></i>
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center text-lg sm:text-xl shrink-0">
+                    <i class="fas fa-times-circle"></i>
                 </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-500">Menu Habis (Sold Out)</p>
-                    <h3 class="text-2xl font-bold text-rose-500" id="statSoldOut">0</h3>
+                <div class="min-w-0 flex-1">
+                    <p class="text-[11px] sm:text-xs font-medium text-slate-500 truncate">Habis (Sold Out)</p>
+                    <h3 class="text-xl sm:text-2xl font-bold text-rose-500" id="statSoldOut">0</h3>
                 </div>
             </div>
 
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-4">
+            <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-2.5 sm:gap-4 col-span-2 lg:col-span-1">
                 <div
-                    class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg sm:text-xl shrink-0">
                     <i class="fas fa-store"></i>
                 </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-500">Status Cafe</p>
-                    <h3 class="text-sm font-bold text-slate-800" id="statStoreStatus">Buka</h3>
+                <div class="min-w-0 flex-1">
+                    <p class="text-[11px] sm:text-xs font-medium text-slate-500 truncate">Status Cafe</p>
+                    <h3 class="text-xs sm:text-sm font-bold text-slate-800 truncate" id="statStoreStatus">Buka</h3>
                 </div>
             </div>
         </div>
 
         <!-- Navigation Tabs -->
-        <div class="flex items-center gap-2 border-b border-slate-200 mb-6 pb-2">
+        <div class="flex items-center gap-2 border-b border-slate-200 mb-6 pb-2 overflow-x-auto no-scrollbar whitespace-nowrap">
             <button onclick="switchTab('menuTab')" id="btnTabMenu"
-                class="px-4 py-2 font-bold text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2">
-                <i class="fas fa-utensils"></i> Manajemen Menu
+                class="px-3.5 py-2 sm:px-4 sm:py-2 font-bold text-xs sm:text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2 shrink-0">
+                <i class="fas fa-utensils"></i>
+                <span><span class="hidden sm:inline">Manajemen </span>Menu</span>
             </button>
             <button onclick="switchTab('settingsTab')" id="btnTabSettings"
-                class="px-4 py-2 font-semibold text-sm rounded-xl transition-all text-slate-600 hover:bg-slate-200/70 flex items-center gap-2">
-                <i class="fas fa-store-alt"></i> Pengaturan Cafe & Promo
+                class="px-3.5 py-2 sm:px-4 sm:py-2 font-semibold text-xs sm:text-sm rounded-xl transition-all text-slate-600 hover:bg-slate-200/70 flex items-center gap-2 shrink-0">
+                <i class="fas fa-store-alt"></i>
+                <span>Pengaturan<span class="hidden sm:inline"> Cafe & Promo</span></span>
             </button>
         </div>
 
         <!-- TAB 1: MENU MANAGEMENT -->
-        <div id="tabMenuContent" class="space-y-6">
+        <div id="tabMenuContent" class="space-y-4 sm:space-y-6">
             <!-- Action Bar: Search, Category Filter & Add Button -->
             <div
-                class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-4">
+                class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
                 <!-- Search Box -->
                 <div class="relative w-full md:w-72">
                     <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
                     <input type="text" id="searchMenuInput" oninput="filterMenuItems()" placeholder="Cari nama menu..."
-                        class="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue focus:bg-white transition">
+                        class="w-full pl-10 pr-4 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue focus:bg-white transition">
                 </div>
 
                 <!-- Category Filters -->
-                <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+                <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar w-full md:w-auto pb-1 md:pb-0">
                     <button onclick="setCategoryFilter('all')" data-cat="all"
-                        class="cat-pill active px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-brand-blue text-white border-brand-blue">Semua</button>
+                        class="cat-pill active px-3 sm:px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-brand-blue text-white border-brand-blue shrink-0">Semua</button>
                     <button onclick="setCategoryFilter('coffee')" data-cat="coffee"
-                        class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-white text-slate-600 border-slate-200 hover:border-slate-300">Coffee</button>
+                        class="cat-pill px-3 sm:px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-white text-slate-600 border-slate-200 hover:border-slate-300 shrink-0">Coffee</button>
                     <button onclick="setCategoryFilter('non-coffee')" data-cat="non-coffee"
-                        class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-white text-slate-600 border-slate-200 hover:border-slate-300">Non-Coffee</button>
+                        class="cat-pill px-3 sm:px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-white text-slate-600 border-slate-200 hover:border-slate-300 shrink-0">Non-Coffee</button>
                     <button onclick="setCategoryFilter('Food')" data-cat="Food"
-                        class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-white text-slate-600 border-slate-200 hover:border-slate-300">Food</button>
+                        class="cat-pill px-3 sm:px-3.5 py-1.5 text-xs font-bold rounded-lg border transition bg-white text-slate-600 border-slate-200 hover:border-slate-300 shrink-0">Food</button>
                 </div>
 
                 <!-- Add Menu Button -->
                 <button onclick="openAddMenuModal()"
-                    class="w-full md:w-auto px-5 py-2.5 bg-brand-coral hover:bg-orange-600 text-white rounded-xl text-sm font-bold shadow-md shadow-orange-500/20 transition flex items-center justify-center gap-2">
+                    class="w-full md:w-auto px-4 sm:px-5 py-2.5 bg-brand-coral hover:bg-orange-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 transition flex items-center justify-center gap-2 shrink-0">
                     <i class="fas fa-plus"></i>
                     <span>Tambah Menu</span>
                 </button>
             </div>
 
-            <!-- Menu Table / Card List -->
+            <!-- Menu Table (Desktop) & Card List (Mobile) -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
-                <div class="overflow-x-auto">
+                <!-- Desktop Table View -->
+                <div class="hidden md:block overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr
@@ -182,30 +195,34 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Mobile Card List View -->
+                <div id="menuMobileList" class="md:hidden divide-y divide-slate-100">
+                </div>
             </div>
         </div>
 
         <!-- TAB 2: STORE SETTINGS & PROMO -->
-        <div id="tabSettingsContent" class="hidden space-y-6">
-            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80 max-w-3xl">
-                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+        <div id="tabSettingsContent" class="hidden space-y-4 sm:space-y-6">
+            <div class="bg-white p-4 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80 max-w-3xl">
+                <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-5 sm:mb-6 flex items-center gap-2">
                     <i class="fas fa-sliders-h text-brand-blue"></i>
                     Informasi Cafe & Kontak (Tersimpan di SQLite)
                 </h3>
 
-                <form id="settingsForm" onsubmit="handleSaveSettings(event)" class="space-y-5">
+                <form id="settingsForm" onsubmit="handleSaveSettings(event)" class="space-y-4 sm:space-y-5">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nama Coffee
                             Shop</label>
                         <input type="text" id="settingStoreName"
-                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                            class="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Tagline
                             Cafe</label>
                         <input type="text" id="settingTagline"
-                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                            class="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -213,14 +230,14 @@
                             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nomor
                                 WhatsApp Kasir/Order</label>
                             <input type="text" id="settingWhatsApp" placeholder="Contoh: 6285183194581"
-                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                                class="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm">
                             <p class="text-[11px] text-slate-400 mt-1">Gunakan format 62xxx tanpa spasi.</p>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Jam
                                 Operasional</label>
                             <input type="text" id="settingHours" placeholder="Setiap Hari: 08.00 AM - 12.00 AM"
-                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                                class="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm">
                         </div>
                     </div>
 
@@ -229,7 +246,7 @@
                             Pengumuman / Promo Berjalan (Optional)</label>
                         <input type="text" id="settingAnnouncement"
                             placeholder="Contoh: Diskon 15% setiap pembelian 2 cup Iced Coffee Lesstresso!"
-                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                            class="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm">
                         <p class="text-[11px] text-slate-400 mt-1">Teks ini akan muncul sebagai banner promo di atas
                             navbar website.</p>
                     </div>
@@ -238,10 +255,10 @@
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Alamat
                             Lengkap</label>
                         <textarea id="settingAddress" rows="2"
-                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm"></textarea>
+                            class="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm"></textarea>
                     </div>
 
-                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div class="flex items-center gap-3">
                             <input type="checkbox" id="settingIsOpen"
                                 class="w-4 h-4 text-brand-blue rounded border-slate-300 focus:ring-brand-blue">
@@ -249,7 +266,7 @@
                         </div>
 
                         <button type="submit"
-                            class="px-6 py-2.5 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-sm font-bold shadow-md transition flex items-center gap-2">
+                            class="w-full sm:w-auto px-6 py-2.5 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-sm font-bold shadow-md transition flex items-center justify-center gap-2">
                             <i class="fas fa-save"></i>
                             <span>Simpan ke Database</span>
                         </button>
@@ -261,33 +278,33 @@
 
     <!-- Modal Form: Add / Edit Menu Item -->
     <div id="menuModal"
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 opacity-0 pointer-events-none transition-all duration-300">
         <div
-            class="bg-white w-full max-w-lg rounded-3xl shadow-2xl p-6 sm:p-8 transform scale-95 transition-all duration-300">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
-                <h3 id="modalTitle" class="text-lg font-bold text-slate-800">Tambah Menu Baru</h3>
+            class="bg-white w-full max-w-lg rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-7 max-h-[92vh] overflow-y-auto transform scale-95 transition-all duration-300">
+            <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
+                <h3 id="modalTitle" class="text-base sm:text-lg font-bold text-slate-800">Tambah Menu Baru</h3>
                 <button onclick="closeMenuModal()"
-                    class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
-                    <i class="fas fa-times"></i>
+                    class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition shrink-0">
+                    <i class="fas fa-times text-sm"></i>
                 </button>
             </div>
 
-            <form id="menuForm" onsubmit="handleSaveMenuItem(event)" class="space-y-4">
+            <form id="menuForm" onsubmit="handleSaveMenuItem(event)" class="space-y-3.5 sm:space-y-4">
                 <input type="hidden" id="editItemId">
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Menu
                         *</label>
                     <input type="text" id="itemName" required placeholder="Contoh: Iced Caramel Macchiato"
-                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                        class="w-full px-3.5 sm:px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Kategori
                             *</label>
                         <select id="itemCategory" required
-                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm">
                             <option value="coffee">Coffee</option>
                             <option value="non-coffee">Non-Coffee</option>
                             <option value="Food">Food</option>
@@ -297,7 +314,7 @@
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Section
                             Sub-Grup</label>
                         <input type="text" id="itemSection" placeholder="SIGNATURE / CLASSIC / SNACK"
-                            class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                            class="w-full px-3.5 sm:px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm">
                     </div>
                 </div>
 
@@ -305,44 +322,44 @@
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Deskripsi
                         Singkat (Opsional)</label>
                     <input type="text" id="itemDesc" placeholder="Contoh: House Blend with Salted Caramel"
-                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm">
+                        class="w-full px-3.5 sm:px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm">
                 </div>
 
                 <!-- Prices S, M, L -->
                 <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/80">
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Harga Sesuai
                         Ukuran (Tulis "-" jika tidak ada)</label>
-                    <div class="grid grid-cols-3 gap-3">
+                    <div class="grid grid-cols-3 gap-2 sm:gap-3">
                         <div>
-                            <span class="text-[11px] font-bold text-slate-400 block mb-1">Small (S)</span>
+                            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400 block mb-1">Small (S)</span>
                             <input type="text" id="itemPriceS" placeholder="20k"
-                                class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-center font-bold">
+                                class="w-full px-2 sm:px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm text-center font-bold">
                         </div>
                         <div>
-                            <span class="text-[11px] font-bold text-slate-400 block mb-1">Medium (M)</span>
+                            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400 block mb-1">Medium (M)</span>
                             <input type="text" id="itemPriceM" placeholder="24k"
-                                class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-center font-bold">
+                                class="w-full px-2 sm:px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm text-center font-bold">
                         </div>
                         <div>
-                            <span class="text-[11px] font-bold text-slate-400 block mb-1">Large (L)</span>
+                            <span class="text-[10px] sm:text-[11px] font-bold text-slate-400 block mb-1">Large (L)</span>
                             <input type="text" id="itemPriceL" placeholder="27k"
-                                class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-center font-bold">
+                                class="w-full px-2 sm:px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm text-center font-bold">
                         </div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 pt-2">
+                <div class="flex items-center gap-3 pt-1">
                     <input type="checkbox" id="itemAvailable" checked
                         class="w-4 h-4 text-brand-blue rounded border-slate-300">
-                    <label for="itemAvailable" class="text-sm font-bold text-slate-700">Tersedia (Bukan Sold
+                    <label for="itemAvailable" class="text-xs sm:text-sm font-bold text-slate-700">Tersedia (Bukan Sold
                         Out)</label>
                 </div>
 
-                <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-2">
+                <div class="pt-3.5 border-t border-slate-100 flex items-center justify-end gap-2">
                     <button type="button" onclick="closeMenuModal()"
-                        class="px-4 py-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition">Batal</button>
+                        class="px-4 py-2 text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-800 transition">Batal</button>
                     <button type="submit"
-                        class="px-5 py-2 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-sm font-bold shadow-md transition">Simpan
+                        class="px-5 py-2 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md transition">Simpan
                         Menu</button>
                 </div>
             </form>
@@ -351,24 +368,24 @@
 
     <!-- Modal Form: Change Password -->
     <div id="changePassModal"
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 opacity-0 pointer-events-none transition-all duration-300">
         <div
-            class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-6 sm:p-8 transform scale-95 transition-all duration-300">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
-                <h3 class="text-lg font-bold text-slate-800">Ganti Password Admin</h3>
+            class="bg-white w-full max-w-md rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-7 max-h-[92vh] overflow-y-auto transform scale-95 transition-all duration-300">
+            <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
+                <h3 class="text-base sm:text-lg font-bold text-slate-800">Ganti Password Admin</h3>
                 <button onclick="closeChangePasswordModal()"
-                    class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
-                    <i class="fas fa-times"></i>
+                    class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition shrink-0">
+                    <i class="fas fa-times text-sm"></i>
                 </button>
             </div>
 
-            <form id="changePassForm" onsubmit="handleChangePassword(event)" class="space-y-4">
+            <form id="changePassForm" onsubmit="handleChangePassword(event)" class="space-y-3.5 sm:space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Password Saat
                         Ini</label>
                     <div class="relative">
                         <input type="password" id="currentPassInput" required placeholder="Masukkan password saat ini"
-                            class="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm transition">
+                            class="w-full pl-3.5 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm transition">
                         <button type="button" onclick="togglePasswordVisibility('currentPassInput', 'eyeIconCurrent')"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition p-1 cursor-pointer"
                             title="Lihat password">
@@ -382,7 +399,7 @@
                     <div class="relative">
                         <input type="password" id="newPassInput" minlength="6" required
                             placeholder="Masukkan password baru"
-                            class="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm transition">
+                            class="w-full pl-3.5 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm transition">
                         <button type="button" onclick="togglePasswordVisibility('newPassInput', 'eyeIconNew')"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition p-1 cursor-pointer"
                             title="Lihat password">
@@ -390,11 +407,11 @@
                         </button>
                     </div>
                 </div>
-                <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-2">
+                <div class="pt-3.5 border-t border-slate-100 flex items-center justify-end gap-2">
                     <button type="button" onclick="closeChangePasswordModal()"
-                        class="px-4 py-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition">Batal</button>
+                        class="px-4 py-2 text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-800 transition">Batal</button>
                     <button type="submit"
-                        class="px-5 py-2 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-sm font-bold shadow-md transition">Update
+                        class="px-5 py-2 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md transition">Update
                         Password</button>
                 </div>
             </form>
@@ -403,16 +420,16 @@
 
     <!-- Login Modal (Active if not authenticated) -->
     <div id="loginModal"
-        class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl p-8 border border-slate-100">
-            <div class="text-center mb-6">
+        class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-3.5 sm:p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white w-full max-w-sm rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 border border-slate-100">
+            <div class="text-center mb-5 sm:mb-6">
                 <img src="assets/logo.png" alt="Logo"
-                    class="w-16 h-16 rounded-full mx-auto mb-3 shadow-md object-cover">
-                <h2 class="text-2xl font-black text-slate-800 tracking-tight">Login Admin Lesstresso</h2>
+                    class="w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto mb-2.5 sm:mb-3 shadow-md object-cover">
+                <h2 class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">Login Admin Lesstresso</h2>
                 <p class="text-xs text-slate-500 mt-1">Masuk untuk mengelola menu & cafe</p>
             </div>
 
-            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-3.5 sm:space-y-4">
                 <div>
                     <label
                         class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Username</label>
@@ -420,7 +437,7 @@
                         <i class="fas fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
                         <input type="text" id="loginUsername" required placeholder="Masukkan username"
                             autocomplete="username"
-                            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm font-semibold transition">
+                            class="w-full pl-10 pr-4 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm font-semibold transition">
                     </div>
                 </div>
 
@@ -431,7 +448,7 @@
                         <i class="fas fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
                         <input type="password" id="loginPassword" required placeholder="Masukkan password"
                             autocomplete="current-password"
-                            class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-sm font-semibold transition">
+                            class="w-full pl-10 pr-10 py-2 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-blue text-xs sm:text-sm font-semibold transition">
                         <button type="button" onclick="togglePasswordVisibility('loginPassword', 'eyeIconLogin')"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition p-1 cursor-pointer"
                             title="Lihat password">
@@ -443,7 +460,7 @@
                 <div id="loginError" class="hidden p-3 rounded-xl bg-rose-50 text-rose-600 text-xs font-semibold"></div>
 
                 <button type="submit" id="btnLoginSubmit"
-                    class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/20 transition flex items-center justify-center gap-2">
+                    class="w-full py-2.5 sm:py-3 bg-brand-blue hover:bg-blue-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-blue-500/20 transition flex items-center justify-center gap-2">
                     <i class="fas fa-sign-in-alt"></i>
                     <span>Masuk ke Dashboard</span>
                 </button>
@@ -453,23 +470,23 @@
 
     <!-- Custom Confirmation Modal (Replaces native browser alert/confirm) -->
     <div id="customConfirmModal"
-        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-3.5 sm:p-4 opacity-0 pointer-events-none transition-all duration-300">
         <div
-            class="bg-white w-full max-w-sm rounded-3xl shadow-2xl p-6 sm:p-7 text-center transform scale-95 transition-all duration-300 border border-slate-100">
+            class="bg-white w-full max-w-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-7 text-center transform scale-95 transition-all duration-300 border border-slate-100">
             <div id="confirmIconWrapper"
-                class="w-14 h-14 mx-auto rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-2xl mb-4 shadow-sm">
+                class="w-12 h-12 sm:w-14 sm:h-14 mx-auto rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 shadow-sm">
                 <i id="confirmIcon" class="fas fa-sign-out-alt"></i>
             </div>
-            <h3 id="confirmTitle" class="text-xl font-bold text-slate-800 mb-2">Keluar dari Admin?</h3>
-            <p id="confirmMessage" class="text-xs text-slate-500 mb-6 leading-relaxed">Sesi Anda akan diakhiri. Anda
+            <h3 id="confirmTitle" class="text-lg sm:text-xl font-bold text-slate-800 mb-1.5 sm:mb-2">Keluar dari Admin?</h3>
+            <p id="confirmMessage" class="text-xs text-slate-500 mb-5 sm:mb-6 leading-relaxed">Sesi Anda akan diakhiri. Anda
                 perlu memasukkan username dan password kembali untuk mengakses panel ini.</p>
-            <div class="flex items-center justify-center gap-3">
+            <div class="flex items-center justify-center gap-2.5 sm:gap-3">
                 <button type="button" onclick="closeCustomConfirm()"
-                    class="w-1/2 py-2.5 px-4 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
+                    class="w-1/2 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
                     Batal
                 </button>
                 <button type="button" id="confirmBtnAction" onclick="handleConfirmActionClick()"
-                    class="w-1/2 py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 shadow-md shadow-rose-500/25 transition cursor-pointer">
+                    class="w-1/2 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-xs font-bold text-white bg-rose-500 hover:bg-rose-600 shadow-md shadow-rose-500/25 transition cursor-pointer">
                     Ya, Keluar
                 </button>
             </div>
@@ -478,7 +495,7 @@
 
     <!-- Notification Toast -->
     <div id="toast"
-        class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-sm transform translate-y-20 opacity-0 transition-all duration-300">
+        class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-5 z-50 bg-slate-900 text-white px-4 sm:px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs sm:text-sm transform translate-y-24 opacity-0 transition-all duration-300 max-w-md">
         <i id="toastIcon" class="fas fa-check-circle text-emerald-400"></i>
         <span id="toastMsg">Perubahan berhasil disimpan!</span>
     </div>
@@ -699,10 +716,11 @@
             }
         }
 
-        // Render Menu Table
+        // Render Menu Table & Mobile Cards
         function renderMenuTable() {
             const tbody = document.getElementById('menuTableBody');
-            if (!tbody) return;
+            const mobileList = document.getElementById('menuMobileList');
+            if (!tbody && !mobileList) return;
 
             const filtered = menuItems.filter(item => {
                 const matchCategory = (currentFilter === 'all') || (item.category.toLowerCase() === currentFilter.toLowerCase());
@@ -712,7 +730,7 @@
             });
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `
+                const emptyDesktop = `
                     <tr>
                         <td colspan="6" class="py-12 text-center text-slate-400">
                             <i class="fas fa-box-open text-3xl mb-2 block"></i>
@@ -720,49 +738,105 @@
                         </td>
                     </tr>
                 `;
+                const emptyMobile = `
+                    <div class="py-12 text-center text-slate-400 px-4">
+                        <i class="fas fa-box-open text-3xl mb-2 block"></i>
+                        <p class="text-sm">Tidak ada menu ditemukan.</p>
+                    </div>
+                `;
+                if (tbody) tbody.innerHTML = emptyDesktop;
+                if (mobileList) mobileList.innerHTML = emptyMobile;
                 return;
             }
 
-            tbody.innerHTML = filtered.map((item) => {
-                const isAvail = item.isAvailable !== false;
-                return `
-                    <tr class="hover:bg-slate-50/80 transition-colors ${!isAvail ? 'bg-rose-50/20' : ''}">
-                        <td class="py-3.5 px-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg ${getCategoryColor(item.category)} flex items-center justify-center text-white text-xs font-bold shrink-0">
-                                    ${item.category.substring(0, 1).toUpperCase()}
+            // Desktop Table Rows
+            if (tbody) {
+                tbody.innerHTML = filtered.map((item) => {
+                    const isAvail = item.isAvailable !== false;
+                    return `
+                        <tr class="hover:bg-slate-50/80 transition-colors ${!isAvail ? 'bg-rose-50/20' : ''}">
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg ${getCategoryColor(item.category)} flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                        ${item.category.substring(0, 1).toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-slate-800 flex items-center gap-2">
+                                            <span>${item.name}</span>
+                                        </div>
+                                        <div class="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
+                                            <span class="font-semibold text-brand-blue uppercase">${item.section || item.category}</span>
+                                            ${item.desc ? `<span>•</span><span>${item.desc}</span>` : ''}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="font-bold text-slate-800 flex items-center gap-2">
-                                        <span>${item.name}</span>
+                            </td>
+                            <td class="py-3.5 px-4 text-center font-bold ${item.s === '-' ? 'text-slate-300' : 'text-slate-700'}">${item.s || '-'}</td>
+                            <td class="py-3.5 px-4 text-center font-bold ${item.m === '-' ? 'text-slate-300' : 'text-slate-700'}">${item.m || '-'}</td>
+                            <td class="py-3.5 px-4 text-center font-bold ${item.l === '-' ? 'text-slate-300' : 'text-brand-blue font-extrabold'}">${item.l || '-'}</td>
+                            <td class="py-3.5 px-4 text-center">
+                                <button onclick="toggleAvailability(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition shadow-sm ${isAvail ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-rose-100 text-rose-700 hover:bg-rose-200'}">
+                                    <span class="w-2 h-2 rounded-full ${isAvail ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
+                                    ${isAvail ? 'Tersedia' : 'Habis'}
+                                </button>
+                            </td>
+                            <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                                <button onclick="openEditMenuModal(${item.id})" class="p-2 text-slate-500 hover:text-brand-blue hover:bg-blue-50 rounded-lg transition" title="Edit Menu">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                                <button onclick="deleteMenuItem(${item.id}, '${item.name.replace(/'/g, "\\'")}')" class="p-2 text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-lg transition" title="Hapus Menu">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            // Mobile Card List
+            if (mobileList) {
+                mobileList.innerHTML = filtered.map((item) => {
+                    const isAvail = item.isAvailable !== false;
+                    return `
+                        <div class="p-3.5 sm:p-4 hover:bg-slate-50/80 transition-colors ${!isAvail ? 'bg-rose-50/30' : ''}">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-start gap-3 min-w-0">
+                                    <div class="w-8 h-8 rounded-lg ${getCategoryColor(item.category)} flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5 shadow-sm">
+                                        ${item.category.substring(0, 1).toUpperCase()}
                                     </div>
-                                    <div class="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
-                                        <span class="font-semibold text-brand-blue uppercase">${item.section || item.category}</span>
-                                        ${item.desc ? `<span>•</span><span>${item.desc}</span>` : ''}
+                                    <div class="min-w-0">
+                                        <h4 class="font-bold text-slate-800 text-sm truncate leading-snug">${item.name}</h4>
+                                        <div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5 flex-wrap">
+                                            <span class="font-semibold text-brand-blue uppercase">${item.section || item.category}</span>
+                                            ${item.desc ? `<span>•</span><span class="truncate max-w-[170px]">${item.desc}</span>` : ''}
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="flex items-center gap-1 shrink-0">
+                                    <button onclick="openEditMenuModal(${item.id})" class="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-brand-blue hover:bg-blue-50 rounded-lg transition" title="Edit Menu">
+                                        <i class="fas fa-pen text-xs"></i>
+                                    </button>
+                                    <button onclick="deleteMenuItem(${item.id}, '${item.name.replace(/'/g, "\\'")}')" class="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition" title="Hapus Menu">
+                                        <i class="fas fa-trash-alt text-xs"></i>
+                                    </button>
                                 </div>
                             </div>
-                        </td>
-                        <td class="py-3.5 px-4 text-center font-bold ${item.s === '-' ? 'text-slate-300' : 'text-slate-700'}">${item.s || '-'}</td>
-                        <td class="py-3.5 px-4 text-center font-bold ${item.m === '-' ? 'text-slate-300' : 'text-slate-700'}">${item.m || '-'}</td>
-                        <td class="py-3.5 px-4 text-center font-bold ${item.l === '-' ? 'text-slate-300' : 'text-brand-blue font-extrabold'}">${item.l || '-'}</td>
-                        <td class="py-3.5 px-4 text-center">
-                            <button onclick="toggleAvailability(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition shadow-sm ${isAvail ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-rose-100 text-rose-700 hover:bg-rose-200'}">
-                                <span class="w-2 h-2 rounded-full ${isAvail ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
-                                ${isAvail ? 'Tersedia' : 'Habis'}
-                            </button>
-                        </td>
-                        <td class="py-3.5 px-4 text-right whitespace-nowrap">
-                            <button onclick="openEditMenuModal(${item.id})" class="p-2 text-slate-500 hover:text-brand-blue hover:bg-blue-50 rounded-lg transition" title="Edit Menu">
-                                <i class="fas fa-pen"></i>
-                            </button>
-                            <button onclick="deleteMenuItem(${item.id}, '${item.name.replace(/'/g, "\\'")}')" class="p-2 text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-lg transition" title="Hapus Menu">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+                            
+                            <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-1.5 flex-wrap text-xs">
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-semibold text-[11px]">S: <strong class="${item.s === '-' ? 'text-slate-400 font-normal' : 'text-slate-800'}">${item.s || '-'}</strong></span>
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-semibold text-[11px]">M: <strong class="${item.m === '-' ? 'text-slate-400 font-normal' : 'text-slate-800'}">${item.m || '-'}</strong></span>
+                                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-semibold text-[11px]">L: <strong class="${item.l === '-' ? 'text-slate-400 font-normal' : 'text-brand-blue'}">${item.l || '-'}</strong></span>
+                                </div>
+                                <button onclick="toggleAvailability(${item.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition shadow-sm shrink-0 ${isAvail ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 active:scale-95' : 'bg-rose-100 text-rose-700 hover:bg-rose-200 active:scale-95'}">
+                                    <span class="w-2 h-2 rounded-full ${isAvail ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
+                                    ${isAvail ? 'Tersedia' : 'Habis'}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
         }
 
         function getCategoryColor(cat) {
@@ -1007,15 +1081,15 @@
             const btnSettings = document.getElementById('btnTabSettings');
 
             [btnMenu, btnSettings].forEach(btn => {
-                btn.className = "px-4 py-2 font-semibold text-sm rounded-xl transition-all text-slate-600 hover:bg-slate-200/70 flex items-center gap-2";
+                btn.className = "px-3.5 py-2 sm:px-4 sm:py-2 font-semibold text-xs sm:text-sm rounded-xl transition-all text-slate-600 hover:bg-slate-200/70 flex items-center gap-2 shrink-0";
             });
 
             if (tab === 'menuTab') {
                 document.getElementById('tabMenuContent').classList.remove('hidden');
-                btnMenu.className = "px-4 py-2 font-bold text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2";
+                btnMenu.className = "px-3.5 py-2 sm:px-4 sm:py-2 font-bold text-xs sm:text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2 shrink-0";
             } else if (tab === 'settingsTab') {
                 document.getElementById('tabSettingsContent').classList.remove('hidden');
-                btnSettings.className = "px-4 py-2 font-bold text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2";
+                btnSettings.className = "px-3.5 py-2 sm:px-4 sm:py-2 font-bold text-xs sm:text-sm rounded-xl transition-all bg-brand-blue text-white shadow-sm flex items-center gap-2 shrink-0";
             }
         }
 
@@ -1032,9 +1106,9 @@
                 toastIcon.className = "fas fa-check-circle text-emerald-400";
             }
 
-            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.remove('translate-y-24', 'opacity-0');
             setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.add('translate-y-24', 'opacity-0');
             }, 3000);
         }
 

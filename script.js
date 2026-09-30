@@ -6,7 +6,7 @@ const defaultMenuData = [
         sections: [
             {
                 name: "SIGNATURE",
-                color: "brand-coral", 
+                color: "brand-coral",
                 items: [
                     { name: "Iced Coffee Lesstresso", desc: "House Blend Special", s: "22k", m: "26k", l: "29k", isAvailable: true },
                     { name: "Choco Delight", desc: "Premium Cocoa Blend", s: "25k", m: "29k", l: "32k", isAvailable: true }
@@ -42,7 +42,7 @@ const defaultMenuData = [
         sections: [
             {
                 name: "POWDER BASED",
-                color: "brand-blue", 
+                color: "brand-blue",
                 items: [
                     { name: "Matcha (Hot/Ice)", s: "19k", m: "23k", l: "26k", isAvailable: true },
                     { name: "Taro (Hot/Ice)", s: "19k", m: "23k", l: "26k", isAvailable: true },
@@ -72,7 +72,7 @@ const defaultMenuData = [
                 ]
             }
         ],
-        addons: null 
+        addons: null
     },
     {
         category: "Food",
@@ -80,7 +80,7 @@ const defaultMenuData = [
         sections: [
             {
                 name: "SNACK",
-                color: "brand-blue", 
+                color: "brand-blue",
                 items: [
                     { name: "Spring Roll (4pcs / 6pcs / 9pcs)", s: "15k", m: "20k", l: "25k", isAvailable: true },
                     { name: "Crispy Chicken Skin", s: "18k", m: "-", l: "-", isAvailable: true },
@@ -99,7 +99,7 @@ const defaultMenuData = [
                 ]
             },
             {
-                name: "SPAGHETTI", 
+                name: "SPAGHETTI",
                 color: "brand-blue",
                 items: [
                     { name: "Spaghetti Bolognese*", s: "22k", m: "-", l: "-", isAvailable: true }
@@ -109,16 +109,16 @@ const defaultMenuData = [
                 name: "RICE BOWL",
                 color: "brand-blue",
                 items: [
-                    { 
-                        name: "Chicken Katsu", 
-                        desc: "(Teriyaki Sauce/Black Pepper Sauce)", 
-                        s: "25k", m: "-", l: "-" ,
+                    {
+                        name: "Chicken Katsu",
+                        desc: "(Teriyaki Sauce/Black Pepper Sauce)",
+                        s: "25k", m: "-", l: "-",
                         isAvailable: true
                     },
-                    { 
-                        name: "Chicken Karage", 
-                        desc: "(Teriyaki Sauce/Black Pepper Sauce)", 
-                        s: "25k", m: "-", l: "-" ,
+                    {
+                        name: "Chicken Karage",
+                        desc: "(Teriyaki Sauce/Black Pepper Sauce)",
+                        s: "25k", m: "-", l: "-",
                         isAvailable: true
                     }
                 ]
@@ -201,7 +201,7 @@ const reviewsData = [
 ];
 
 let activeMenuData = [...defaultMenuData];
-let currentCategory = 'coffee'; 
+let currentCategory = 'coffee';
 
 // Transform flat items from CMS/PocketBase to structured nested menu
 function transformFlatItemsToMenu(flatItems) {
@@ -221,7 +221,7 @@ function transformFlatItemsToMenu(flatItems) {
 
     return categoryConfigs.map(catCfg => {
         const catItems = flatItems.filter(item => item.category.toLowerCase() === catCfg.category.toLowerCase());
-        
+
         // Group by section
         const sectionMap = {};
         catItems.forEach(item => {
@@ -259,7 +259,7 @@ async function loadCMSData() {
                 dataLoaded = true;
             }
         }
-    } catch(err) {
+    } catch (err) {
         // API server offline or running as static file, try local cache
     }
 
@@ -273,7 +273,7 @@ async function loadCMSData() {
                     activeMenuData = transformFlatItemsToMenu(parsed);
                     dataLoaded = true;
                 }
-            } catch(e) {
+            } catch (e) {
                 console.error("Error parsing local menu data", e);
             }
         }
@@ -302,13 +302,13 @@ async function applyStoreSettings() {
             const data = await res.json();
             if (data.settings) settings = data.settings;
         }
-    } catch(e) {}
+    } catch (e) { }
 
     // 2. Fallback to localStorage settings
     if (!settings) {
         const localSettings = localStorage.getItem('lesstresso_store_settings');
         if (localSettings) {
-            try { settings = JSON.parse(localSettings); } catch(err) {}
+            try { settings = JSON.parse(localSettings); } catch (err) { }
         }
     }
 
@@ -333,15 +333,149 @@ async function applyStoreSettings() {
         // Update Year
         const yearEl = document.getElementById('footerYear');
         if (yearEl) yearEl.textContent = new Date().getFullYear();
-    } catch(e) {
+    } catch (e) {
         console.error("Error applying store settings", e);
     }
+}
+
+function createMenuItem(template, item) {
+    const clone = template.content.cloneNode(true);
+    const row = clone.querySelector('.menu-item-row');
+    const isAvail = item.isAvailable !== false;
+
+    if (!isAvail) {
+        row.classList.add('menu-item-soldout');
+    }
+
+    // Name & Sold Out Tag
+    const nameText = clone.querySelector('.item-name-text');
+    if (nameText) nameText.textContent = item.name;
+
+    const soldOut = clone.querySelector('.sold-out-tag');
+    if (soldOut) {
+        if (isAvail) {
+            soldOut.remove();
+        }
+    }
+
+    // Description (if available)
+    const descEl = clone.querySelector('.menu-item-desc');
+    if (descEl) {
+        if (item.desc) {
+            descEl.textContent = item.desc;
+        } else {
+            descEl.remove();
+        }
+    }
+
+    // Sizes S, M, L
+    const sEl = clone.querySelector('.menu-item-s');
+    if (sEl) {
+        sEl.textContent = item.s;
+        sEl.className += (item.s === '-' || !isAvail) ? ' text-slate-300' : ' text-slate-600';
+    }
+
+    const mEl = clone.querySelector('.menu-item-m');
+    if (mEl) {
+        mEl.textContent = item.m;
+        mEl.className += (item.m === '-' || !isAvail) ? ' text-slate-300' : ' text-slate-600';
+    }
+
+    const lEl = clone.querySelector('.menu-item-l');
+    if (lEl) {
+        lEl.textContent = item.l;
+        if (item.l === '-' || !isAvail) {
+            lEl.className += ' text-slate-300';
+        } else {
+            lEl.className += ' text-brand-blue bg-blue-50/50 rounded-lg py-1';
+        }
+    }
+
+    return clone;
+}
+
+function createMenuSection(sectionTemplate, itemTemplate, section) {
+    const clone = sectionTemplate.content.cloneNode(true);
+
+    // Section Dot Color & Name
+    const dot = clone.querySelector('.menu-section-dot');
+    if (dot) {
+        dot.classList.add(section.color === 'brand-coral' ? 'bg-brand-coral' : 'bg-brand-blue');
+    }
+
+    const name = clone.querySelector('.menu-section-name');
+    if (name) name.textContent = section.name;
+
+    // Items list
+    const itemsList = clone.querySelector('.menu-items-list');
+    if (itemsList && section.items) {
+        const fragment = document.createDocumentFragment();
+        section.items.forEach(item => {
+            fragment.appendChild(createMenuItem(itemTemplate, item));
+        });
+        itemsList.appendChild(fragment);
+    }
+
+    return clone;
+}
+
+function createMenuCategoryCard(templates, cat, isDesktop) {
+    const clone = templates.catTemplate.content.cloneNode(true);
+    const card = clone.querySelector('.menu-category-card');
+
+    if (!isDesktop) {
+        card.classList.add('max-w-md');
+    }
+
+    // Category Title
+    const title = clone.querySelector('.menu-category-title');
+    if (title) title.textContent = cat.categoryTitle;
+
+    // Sections
+    const sectionsContainer = clone.querySelector('.menu-sections-container');
+    if (sectionsContainer && cat.sections) {
+        const secFragment = document.createDocumentFragment();
+        cat.sections.forEach(sec => {
+            secFragment.appendChild(createMenuSection(templates.secTemplate, templates.itemTemplate, sec));
+        });
+        sectionsContainer.appendChild(secFragment);
+    }
+
+    // Addons
+    const addonsWrapper = clone.querySelector('.menu-addons-wrapper');
+    if (cat.addons && cat.addons.length > 0) {
+        const addonsList = clone.querySelector('.menu-addons-list');
+        if (addonsWrapper && addonsList) {
+            const addonFragment = document.createDocumentFragment();
+            cat.addons.forEach(extra => {
+                const addClone = templates.addonTemplate.content.cloneNode(true);
+                const addName = addClone.querySelector('.addon-name');
+                if (addName) addName.textContent = extra.name;
+                const addPrice = addClone.querySelector('.addon-price');
+                if (addPrice) addPrice.textContent = extra.price;
+                addonFragment.appendChild(addClone);
+            });
+            addonsList.appendChild(addonFragment);
+        }
+    } else if (addonsWrapper) {
+        addonsWrapper.remove();
+    }
+
+    return clone;
 }
 
 function renderMenu(categoryFilter = currentCategory) {
     const container = document.getElementById('menu-container');
     if (!container) return;
 
+    const catTemplate = document.getElementById('menu-category-template');
+    const secTemplate = document.getElementById('menu-section-template');
+    const itemTemplate = document.getElementById('menu-item-row-template');
+    const addonTemplate = document.getElementById('menu-addon-row-template');
+
+    if (!catTemplate || !secTemplate || !itemTemplate || !addonTemplate) return;
+
+    const templates = { catTemplate, secTemplate, itemTemplate, addonTemplate };
     const isDesktop = window.innerWidth > 900;
 
     let filteredData;
@@ -351,67 +485,19 @@ function renderMenu(categoryFilter = currentCategory) {
     } else {
         filteredData = activeMenuData.filter(cat => cat.category.toLowerCase() === categoryFilter.toLowerCase());
         container.className = "flex justify-center w-full";
-        currentCategory = categoryFilter; 
+        currentCategory = categoryFilter;
     }
 
-    container.innerHTML = filteredData.map(cat => `
-        <div class="w-full flex flex-col h-full transition-all duration-500 animate-fadeIn ${isDesktop ? '' : 'max-w-md'}">
-            <div class="bg-stone-50 p-8 rounded-[2rem] shadow-sm border border-stone-200 h-full flex flex-col">
-                
-                <div class="grid grid-cols-12 gap-0 mb-6 pb-2 border-b border-slate-100 text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em]">
-                    <div class="col-span-6">${cat.categoryTitle}</div>
-                    <div class="col-span-2 text-center">S</div>
-                    <div class="col-span-2 text-center">M</div>
-                    <div class="col-span-2 text-center">L</div>
-                </div>
-
-                ${cat.sections.map(section => `
-                    <div class="mb-10">
-                        <h4 class="text-brand-blue font-black text-base mb-6 flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full ${section.color === 'brand-coral' ? 'bg-brand-coral' : 'bg-brand-blue'}"></span> 
-                            ${section.name}
-                        </h4>
-                        <div class="space-y-5">
-                            ${section.items.map(item => {
-                                const isAvail = item.isAvailable !== false;
-                                return `
-                                    <div class="grid grid-cols-12 gap-0 items-center group cursor-default ${!isAvail ? 'menu-item-soldout' : ''}">
-                                        <div class="col-span-6 text-left">
-                                            <h6 class="font-bold text-[13px] leading-tight group-hover:text-brand-blue transition-colors flex items-center flex-wrap">
-                                                <span>${item.name}</span>
-                                                ${!isAvail ? '<span class="sold-out-tag">Habis</span>' : ''}
-                                            </h6>
-                                            ${item.desc ? `<p class="text-[9px] text-slate-400 uppercase mt-1 tracking-wider">${item.desc}</p>` : ''}
-                                        </div>
-                                        <div class="col-span-2 text-center font-bold text-xs ${item.s === '-' || !isAvail ? 'text-slate-300' : 'text-slate-600'}">${item.s}</div>
-                                        <div class="col-span-2 text-center font-bold text-xs border-x border-slate-50 ${item.m === '-' || !isAvail ? 'text-slate-300' : 'text-slate-600'}">${item.m}</div>
-                                        <div class="col-span-2 text-center font-bold text-xs ${item.l === '-' || !isAvail ? 'text-slate-300' : 'text-brand-blue bg-blue-50/50 rounded-lg py-1'}">${item.l}</div>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                `).join('')}
-
-                ${cat.addons && cat.addons.length > 0 ? `
-                    <div class="mt-auto p-5 bg-white rounded-2xl border-l-4 border-brand-coral">
-                        <span class="font-black text-brand-coral text-[9px] tracking-widest uppercase block mb-2">* ADD ON</span>
-                        <div class="space-y-2">
-                            ${cat.addons.map(extra => `
-                                <div class="flex justify-between items-center text-left border-b border-dashed border-slate-100 pb-1 last:border-0">
-                                    <h6 class="font-bold text-[13px] text-slate-800">${extra.name}</h6>
-                                    <div class="text-sm font-black text-brand-blue">${extra.price}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>` : ''}
-            </div>
-        </div>
-    `).join('');
+    container.textContent = '';
+    const mainFragment = document.createDocumentFragment();
+    filteredData.forEach(cat => {
+        mainFragment.appendChild(createMenuCategoryCard(templates, cat, isDesktop));
+    });
+    container.appendChild(mainFragment);
 }
 
 function filterMenu(category) {
-    const buttons = document.querySelectorAll('.category-btn'); 
+    const buttons = document.querySelectorAll('.category-btn');
     const container = document.getElementById('menu-container');
 
     if (container) container.style.opacity = '0';
@@ -503,7 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLogo = document.getElementById('navLogo');
     const toggleIcon = menuToggle ? menuToggle.querySelector('i') : null;
     const navLinks = document.querySelectorAll('#navMenu .nav-link');
-    const overlay = document.getElementById('overlay'); 
+    const overlay = document.getElementById('overlay');
 
     const closeMenu = () => {
         navMenu.classList.remove('show-menu');
@@ -518,18 +604,18 @@ document.addEventListener('DOMContentLoaded', () => {
         menuToggle.addEventListener('click', () => {
             const isOpen = navMenu.classList.toggle('show-menu');
             if (overlay) overlay.classList.toggle('active');
-            
+
             if (toggleIcon) {
                 toggleIcon.style.transition = "transform 0.4s ease";
                 toggleIcon.style.transform = isOpen ? "rotate(90deg)" : "rotate(0deg)";
-                
+
                 if (isOpen) {
                     toggleIcon.classList.replace('fa-bars', 'fa-times');
-                    
+
                     navLinks.forEach((link, index) => {
                         link.style.opacity = "0";
                         link.style.transform = "translateX(-20px)";
-                        link.style.transition = "none"; 
+                        link.style.transition = "none";
 
                         setTimeout(() => {
                             link.style.transition = "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
@@ -554,21 +640,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleScroll = () => {
         const isScrolled = window.scrollY > 50;
-        
+
         navbar.classList.toggle('scrolled', isScrolled);
-        
+
         if (isScrolled) {
-            if(navLogo) {
+            if (navLogo) {
                 navLogo.classList.add('text-brand-blue');
                 navLogo.classList.remove('text-white');
             }
-            if(menuToggle) menuToggle.classList.replace('text-white', 'text-slate-800');
+            if (menuToggle) menuToggle.classList.replace('text-white', 'text-slate-800');
         } else {
-            if(navLogo) {
+            if (navLogo) {
                 navLogo.classList.remove('text-brand-blue');
                 navLogo.classList.add('text-white');
             }
-            if(menuToggle) menuToggle.classList.replace('text-slate-800', 'text-white');
+            if (menuToggle) menuToggle.classList.replace('text-slate-800', 'text-white');
         }
 
         document.querySelectorAll('.reveal').forEach(el => {
@@ -592,6 +678,6 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
             renderMenu(currentCategory);
-        }, 200); 
+        }, 200);
     });
 });
